@@ -7,3 +7,4 @@ allure-report/
 .venv/
 logs/
 screenshots/
+.idea/
