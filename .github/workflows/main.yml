@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout Code
@@ -17,7 +19,10 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
+        python-version-file: '.python-version'
+
+    - name: Check Python Version
+      run: python --version
 
     - name: Install Dependencies
       run: |
@@ -30,7 +35,7 @@ jobs:
         STANDARD_PASSWORD: ${{ secrets.STANDARD_PASSWORD }}
         HEADLESS: "true"
       run: |
-        pytest --color=yes
+        pytest --alluredir=./reports/allure-results --clean-alluredir
 
     - name: Upload Test Artifacts (Logs & Screenshots)
       if: always()
@@ -39,3 +44,25 @@ jobs:
         name: test-session-results
         path: logs/
         retention-days: 7
+
+    - name: Get Allure history
+      uses: actions/checkout@v3
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
+
+    - name: Generate Allure Report
+      uses: simple-elf/allure-report-action@master
+      if: always()
+      with:
+        allure_results: ./reports/allure-results
+        allure_history: allure-history
+
+    - name: Deploy Allure Report to GitHub Pages
+      if: always()
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: allure-history
