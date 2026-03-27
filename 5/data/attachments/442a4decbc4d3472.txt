@@ -1,0 +1,12 @@
+INFO     tests.conftest:conftest.py:102 Initializing the browser session...
+INFO     WDM:logger.py:11 ====== WebDriver manager ======
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 Driver [/home/runner/.wdm/drivers/chromedriver/linux64/146.0.7680.165/chromedriver-linux64/chromedriver] found in cache
+INFO     src.pages.base_page:base_page.py:52 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_page:base_page.py:79 Successfully verified location: LoginPage
+INFO     src.utils.logger:logger.py:22 Step: Attempting login with username: 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:115 Typing 'standard_user' into element: ('id', 'user-name')
+INFO     src.pages.base_ui:base_ui.py:115 Typing 'wrong_123' into element: ('id', 'password')
+INFO     src.utils.logger:logger.py:22 Step: Verify the correct error message is displayed
+INFO     tests.conftest:conftest.py:124 Terminating the browser session...
