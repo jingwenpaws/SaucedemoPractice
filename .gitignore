@@ -1,10 +1,38 @@
-.env
+# IDE Settings (JetBrains/VS Code)
+.idea/
+*.iml
+.vscode/
+
+# Python environment and bytecode
 __pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+
+# Testing (Pytest, Coverage)
 .pytest_cache/
+.tox/
+.nox/
+.coverage
+htmlcov/
+nosetests.xml
+coverage.xml
+*.py,cover
+
+# Reports (Allure)
 allure-results/
 allure-report/
-*.pyc
-.venv/
+
+# Logs and Assets
 logs/
+*.log
 screenshots/
-.idea/
+
+# Environment Variables and Secrets
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
