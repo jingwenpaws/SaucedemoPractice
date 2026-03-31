@@ -17,9 +17,13 @@ class Step:
     def __init__(self, title: str) -> None:
         self.title = title
         self._allure_step = allure.step(title)
+        self.width = 70
 
     def __enter__(self) -> "Step":
-        logger.info("Step: %s", self.title)
+        banner = "═" * self.width
+        logger.info(banner)
+        logger.info(f"STEP: {self.title}")
+        logger.info(banner)
         self._allure_step.__enter__()
         return self
 
@@ -30,7 +34,13 @@ class Step:
         exc_tb: Optional[TracebackType],
     ) -> None:
         if exc_type:
-            logger.error("Step failed: %s (Error: %s)", self.title, exc_val)
+            err_banner = "!" * self.width
+            logger.error(err_banner)
+            logger.error(f"STEP FAILED: {self.title}")
+            logger.error(f"Reason: {exc_val}")
+            logger.error(err_banner)
+        else:
+            logger.info(f"*** STEP SUCCESSFUL: {self.title} ***")
         self._allure_step.__exit__(exc_type, exc_val, exc_tb)
 
     def __call__(self, func: Callable[..., Any]) -> Callable[..., Any]:

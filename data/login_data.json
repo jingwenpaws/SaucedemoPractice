@@ -20,6 +20,13 @@
       "pass": "secret_sauce",
       "expected_error": "Epic sadface: Username is required",
       "desc": "Empty Account"
+    },
+        {
+      "id": "non_existent_user",
+      "user": "non_existent_user",
+      "pass": "secret_sauce",
+      "expected_error": "Epic sadface: Username and password do not match any user in this service",
+      "desc": "Non-existent Account"
     }
   ]
 }

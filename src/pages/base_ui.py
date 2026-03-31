@@ -39,7 +39,7 @@ class BaseUI(ABC):
             logger.warning(f"Force click enabled for {locator}. Bypassing visibility check.")
             target = self.find_element(locator)
             self.driver.execute_script("arguments[0].click();", target)
-            return  # 點完直接結束，不往下走
+            return
         try:
             element = self.wait.until(EC.element_to_be_clickable(locator))
             element.click()
@@ -103,7 +103,7 @@ class BaseUI(ABC):
             logger.error(detailed_msg)
             raise TimeoutException(detailed_msg) from e
 
-    def send_keys(self, locator: Locator, text: str, clear: bool = True) -> None:
+    def send_keys(self, locator: Locator, text: str, clear: bool = True, is_sensitive: bool = False) -> None:
         """
         Send text input to an element after waiting for its visibility.
 
@@ -111,8 +111,10 @@ class BaseUI(ABC):
             locator (Locator): The locator for the element.
             text (str): The string to enter into the element.
             clear (bool): Whether to clear the field before typing. Defaults to True.
+            is_sensitive (bool): Whether to mask the key in logs. Defaults to False.
         """
-        logger.info(f"Typing '{text}' into element: {locator}")
+        display_text = "********" if is_sensitive else text
+        logger.info(f"Typing '{display_text}' into element: {locator}")
         element = self.find_element(locator)
         if clear:
             element.clear()
