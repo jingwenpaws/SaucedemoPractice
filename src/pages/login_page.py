@@ -2,15 +2,16 @@ from selenium.webdriver.common.by import By
 
 from src.pages.inventory_page import InventoryPage
 from src.pages.base_page import BasePage
+from src.utils.logger import Step
 
 
 class LoginPageLocators:
     """
     Locators for the Login Page elements.
     """
-    USERNAME_FIELD = (By.ID, "user-name")
-    PASSWORD_FIELD = (By.ID, "password")
-    LOGIN_BUTTON = (By.ID, "login-button")
+    USERNAME_FIELD = (By.CSS_SELECTOR, "#user-name")
+    PASSWORD_FIELD = (By.CSS_SELECTOR, "#password")
+    LOGIN_BUTTON = (By.CSS_SELECTOR, "#login-button")
     ERROR_MESSAGE = (By.CSS_SELECTOR, "h3[data-test='error']")
 
 
@@ -32,6 +33,7 @@ class LoginPage(BasePage):
 
         return is_url_correct and is_element_visible
 
+    @Step("Attempt to login as '{username}'")
     def login(self, username: str, password: str, is_sensitive: bool = False) -> None:
         """
         Perform the base login UI actions (input credentials and click login)
@@ -47,6 +49,7 @@ class LoginPage(BasePage):
         self.send_keys(LoginPageLocators.PASSWORD_FIELD, password, is_sensitive=is_sensitive)
         self.click(LoginPageLocators.LOGIN_BUTTON)
 
+    @Step("Login as '{username}' and expect it to be successful")
     def login_success(self, username: str, password: str, is_sensitive: bool = True) -> InventoryPage:
         """
         Perform a login action with valid credentials and transition to the Inventory Page.

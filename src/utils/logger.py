@@ -1,3 +1,4 @@
+import inspect
 import logging
 from functools import wraps
 from typing import Any, Callable, Optional, Type
@@ -46,11 +47,22 @@ class Step:
     def __call__(self, func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
-            logger.info("Action: %s", self.title)
+            sig = inspect.signature(func)
+            bound_args = sig.bind(*args, **kwargs)
+            bound_args.apply_defaults()
+
             try:
-                with self._allure_step:
+                dynamic_title = self.title.format(**bound_args.arguments)
+            except KeyError:
+                dynamic_title = self.title
+
+            logger.info("Action: %s", dynamic_title)
+
+            try:
+                with allure.step(dynamic_title):
                     return func(*args, **kwargs)
             except Exception as e:
-                logger.error("Action failed: %s (Error: %s)", self.title, e)
+                logger.error("Action failed: %s (Error: %s)", dynamic_title, e)
                 raise
+
         return wrapper

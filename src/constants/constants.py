@@ -8,6 +8,14 @@ class Paths:
     LOGS = ROOT / "logs"
     CONFIG = ROOT / "config"
 
+class InventoryTestData:
+    MAIN_PRODUCT = "Sauce Labs Backpack"
+
+class InventoryItemsSortingValues:
+    LOW_TO_HIGH = "lohi"
+    HIGH_TO_LOW = "hilo"
+    A_TO_Z = "az"
+    Z_TO_A = "za"
 
 # base url
 BASE_URLS = {

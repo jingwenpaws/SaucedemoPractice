@@ -1,6 +1,6 @@
 import logging
 from abc import ABC
-from typing import Tuple, Optional
+from typing import Tuple, Optional, List
 
 from src.utils.config import Config
 from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
@@ -8,6 +8,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 
 logger = logging.getLogger(__name__)
 Locator = Tuple[str, str]
@@ -65,6 +66,23 @@ class BaseUI(ABC):
         except TimeoutException:
             logger.error(f"Timeout: Element with locator {locator} not found or not visible.")
             raise
+
+    def find_elements(self, locator: tuple) -> List[WebElement]:
+        """
+        Wait for elements to be present on the DOM.
+
+        Args:
+            locator (tuple): The (By, Value) tuple for the elements.
+
+        Returns:
+            List[WebElement]: A list of WebElements found. Returns an empty list
+                              if no elements match the locator within the timeout.
+        """
+        try:
+            return self.wait.until(EC.presence_of_all_elements_located(locator))
+        except TimeoutException:
+            logger.info(f"No elements found for locator {locator} within timeout.")
+            return []
 
     def is_element_visible(self, locator: Locator, timeout: int = 3) -> bool:
         """
@@ -129,3 +147,27 @@ class BaseUI(ABC):
         """
         element = self.find_element(locator)
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+
+    def select_dropdown_by_value(self, locator: tuple, value: str) -> None:
+        """
+        Wait for a dropdown element to be visible and select an option by its HTML 'value' attribute.
+
+        Args:
+            locator (tuple): The (By, Value) tuple for the dropdown element.
+            value (str): The value attribute of the <option> to select.
+        """
+        element = self.find_element(locator)
+        select_obj = Select(element)
+        select_obj.select_by_value(value)
+
+    def select_dropdown_by_text(self, locator: tuple, visible_text: str) -> None:
+        """
+        Wait for a dropdown element to be visible and select an option by its visible text.
+
+        Args:
+            locator (tuple): The (By, Value) tuple for the dropdown element.
+            visible_text (str): The exact visible text of the <option> to select.
+        """
+        element = self.find_element(locator)
+        select_obj = Select(element)
+        select_obj.select_by_visible_text(visible_text)

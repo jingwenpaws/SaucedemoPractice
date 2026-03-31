@@ -1,4 +1,3 @@
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -6,6 +5,27 @@ from src.pages.base_page import BasePage
 from src.pages.header_component import HeaderComponent
 from src.pages.sidebar_page import SidebarPage
 from src.utils.logger import Step
+
+
+class InventoryPageLocators:
+    SORT_DROPDOWN = (By.CSS_SELECTOR, "select[data-test='product-sort-container']")
+    ITEM_PRICES = (By.CSS_SELECTOR, "div[data-test='inventory-item-price']")
+    ITEM_NAMES = (By.CSS_SELECTOR, "div[data-test='inventory-item-name']")
+
+    @staticmethod
+    def _to_slug(item_name: str) -> str:
+        """Convert raw item name to slug format for data-test attributes."""
+        return item_name.lower().replace(" ", "-")
+
+    @classmethod
+    def add_to_cart_button(cls, item_name: str) -> tuple:
+        """Dynamic locator for the Add to Cart button based on the raw item name."""
+        return (By.CSS_SELECTOR, f"button[data-test='add-to-cart-{cls._to_slug(item_name)}']")
+
+    @classmethod
+    def remove_button(cls, item_name: str) -> tuple:
+        """Dynamic locator for the Remove button based on the raw item name."""
+        return (By.CSS_SELECTOR, f"button[data-test='remove-{cls._to_slug(item_name)}']")
 
 
 class InventoryPage(BasePage):
@@ -38,6 +58,44 @@ class InventoryPage(BasePage):
     @Step("Add item '{item_name}' to the shopping cart")
     def add_item_to_cart(self, item_name: str) -> "InventoryPage":
         """
-        Add a specific item to the shopping cart by its name.
+        Add a specific item to the shopping cart based on its visible name.
+
+        Args:
+            item_name: The exact text of the item name (e.g., "Sauce Labs Backpack").
         """
-        pass
+        locator = InventoryPageLocators.add_to_cart_button(item_name)
+        self.click(locator)
+        return self
+
+    @Step("Remove item '{item_name}' from the shopping cart")
+    def remove_item_from_cart(self, item_name):
+        """
+        Remove a specific item from the shopping cart based on its visible name.
+
+        Args:
+            item_name: The exact text of the item name (e.g., "Sauce Labs Backpack").
+        """
+        locator = InventoryPageLocators.remove_button(item_name)
+        self.click(locator, force=True)
+        return self
+
+    @Step("Select {sort_value} to sort the inventory items")
+    def select_sort_option_by_value(self, sort_value: str) -> None:
+        """
+        Sort the inventory items using the dropdown menu.
+        Valid values: 'az' (A-Z), 'za' (Z-A), 'lohi' (Low to High), 'hilo' (High to Low).
+        """
+        locator = InventoryPageLocators.SORT_DROPDOWN
+
+        self.select_dropdown_by_value(locator, sort_value)
+        return self
+
+    def get_all_item_prices(self) -> list[float]:
+        """Get all item prices to a float list"""
+        price_elements = self.find_elements(InventoryPageLocators.ITEM_PRICES)
+        return [float(e.text.replace('$', '')) for e in price_elements]
+
+    def get_all_item_names(self) -> list[str]:
+        """Get all item names to a string list"""
+        name_elements = self.find_elements(InventoryPageLocators.ITEM_NAMES)
+        return [e.text for e in name_elements]

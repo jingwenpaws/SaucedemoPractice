@@ -4,10 +4,12 @@ from src.utils.logger import Step
 
 
 class HeaderLocators:
-    """Locators for the Top Navigation Bar (Header) elements."""
-    CART_ICON = (By.CLASS_NAME, "shopping_cart_link")
-    CART_BADGE = (By.CLASS_NAME, "shopping_cart_badge")
-    APP_LOGO = (By.CLASS_NAME, "app_logo")
+    """
+    Locators for the Top Navigation Bar (Header) elements.
+    """
+    CART_ICON = (By.CSS_SELECTOR, ".shopping_cart_link")
+    CART_BADGE = (By.CSS_SELECTOR, ".shopping_cart_badge")
+    APP_LOGO = (By.CSS_SELECTOR, ".app_logo")
 
 
 class HeaderComponent(BaseUI):
@@ -41,4 +43,4 @@ class HeaderComponent(BaseUI):
             Page transition initialization (e.g., returning CartPage) should typically
             be handled by the caller or a wrapper method to avoid circular imports.
         """
-        self.click(HeaderLocators.CART_ICON)
+        self.click(HeaderLocators.CART_ICON, force=True)
