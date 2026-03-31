@@ -1,0 +1,29 @@
+INFO     tests.conftest:conftest.py:102 Initializing the browser session...
+INFO     WDM:logger.py:11 ====== WebDriver manager ======
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 Driver [/home/runner/.wdm/drivers/chromedriver/linux64/146.0.7680.165/chromedriver-linux64/chromedriver] found in cache
+INFO     src.pages.base_page:base_page.py:52 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_page:base_page.py:79 Successfully verified location: LoginPage
+INFO     src.pages.base_ui:base_ui.py:117 Typing 'standard_user' into element: ('id', 'user-name')
+INFO     src.pages.base_ui:base_ui.py:117 Typing '********' into element: ('id', 'password')
+INFO     src.pages.base_page:base_page.py:79 Successfully verified location: InventoryPage
+INFO     src.utils.logger:logger.py:24 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:25 STEP: Open a duplicate tab with the active session
+INFO     src.utils.logger:logger.py:26 ══════════════════════════════════════════════════════════════════════
+INFO     src.pages.base_page:base_page.py:52 Navigating to: https://www.saucedemo.com/inventory.html
+INFO     src.utils.logger:logger.py:43 *** STEP SUCCESSFUL: Open a duplicate tab with the active session ***
+INFO     src.utils.logger:logger.py:24 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:25 STEP: Perform logout in the secondary tab
+INFO     src.utils.logger:logger.py:26 ══════════════════════════════════════════════════════════════════════
+WARNING  src.pages.base_ui:base_ui.py:39 Force click enabled for ('id', 'logout_sidebar_link'). Bypassing visibility check.
+INFO     src.utils.logger:logger.py:43 *** STEP SUCCESSFUL: Perform logout in the secondary tab ***
+INFO     src.utils.logger:logger.py:24 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:25 STEP: Switch back to the primary tab and refresh
+INFO     src.utils.logger:logger.py:26 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:43 *** STEP SUCCESSFUL: Switch back to the primary tab and refresh ***
+INFO     src.utils.logger:logger.py:24 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:25 STEP: Verify the primary tab is also logged out
+INFO     src.utils.logger:logger.py:26 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:43 *** STEP SUCCESSFUL: Verify the primary tab is also logged out ***
+INFO     tests.conftest:conftest.py:124 Terminating the browser session...
