@@ -1,0 +1,43 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+        Verify that an unauthenticated user cannot directly access the inventory page via URL.
+        ","0","Prevent direct access to inventory without authentication","tests","Tue Mar 31 00:26:25 UTC 2026","broken","Tue Mar 31 00:26:25 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify that login fails if the casing of the username or password is incorrect.
+        ","0","Login credentials case sensitivity check","tests","Tue Mar 31 00:26:24 UTC 2026","broken","Tue Mar 31 00:26:24 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify that login fails if the casing of the username or password is incorrect.
+        ","0","Login credentials case sensitivity check","tests","Tue Mar 31 00:26:24 UTC 2026","broken","Tue Mar 31 00:26:24 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify various negative login scenarios and ensure the correct error message is displayed.
+        ","0","Invalid login attempts validation","tests","Tue Mar 31 00:26:24 UTC 2026","broken","Tue Mar 31 00:26:24 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify that a logged-in user can successfully log out via the sidebar menu.
+        ","0","User logs out successfully from the main page","tests","Tue Mar 31 00:26:25 UTC 2026","broken","Tue Mar 31 00:26:25 UTC 2026","TestLogout","test_auth","",""
+"
+        Verify that once a user is logged in, opening a new tab and navigating
+        to the app retains the logged-in state without requiring re-authentication.
+        ","0","Session persists across multiple tabs","tests","Tue Mar 31 00:26:25 UTC 2026","broken","Tue Mar 31 00:26:25 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify various negative login scenarios and ensure the correct error message is displayed.
+        ","0","Invalid login attempts validation","tests","Tue Mar 31 00:26:24 UTC 2026","broken","Tue Mar 31 00:26:24 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify that a standard user can log in with valid credentials
+        and is redirected to the Inventory Page.
+        ","0","Standard user logs in successfully","tests","Tue Mar 31 00:26:24 UTC 2026","broken","Tue Mar 31 00:26:24 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify various negative login scenarios and ensure the correct error message is displayed.
+        ","0","Invalid login attempts validation","tests","Tue Mar 31 00:26:24 UTC 2026","broken","Tue Mar 31 00:26:24 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify that the authentication cookie is completely removed from the browser.
+        ","0","Session cookie is cleared upon logout","tests","Tue Mar 31 00:26:25 UTC 2026","broken","Tue Mar 31 00:26:25 UTC 2026","TestLogout","test_auth","",""
+"
+        Verify that logging out in one tab invalidates the session in all other open tabs.
+        ","0","Multi-tab session sync upon logout","tests","Tue Mar 31 00:26:25 UTC 2026","broken","Tue Mar 31 00:26:25 UTC 2026","TestLogout","test_auth","",""
+"
+        Verify that a user cannot navigate back to a protected page using the browser's
+        back button after logging out.
+        ","0","Browser back button does not restore active session","tests","Tue Mar 31 00:26:25 UTC 2026","broken","Tue Mar 31 00:26:25 UTC 2026","TestLogout","test_auth","",""
+"
+        Verify various negative login scenarios and ensure the correct error message is displayed.
+        ","0","Invalid login attempts validation","tests","Tue Mar 31 00:26:24 UTC 2026","broken","Tue Mar 31 00:26:24 UTC 2026","TestLogin","test_auth","",""
