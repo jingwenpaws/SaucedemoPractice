@@ -33,6 +33,7 @@ jobs:
       env:
         STANDARD_USERNAME: ${{ secrets.STANDARD_USERNAME }}
         STANDARD_PASSWORD: ${{ secrets.STANDARD_PASSWORD }}
+        HEADLESS: ${{ secrets.HEADLESS }}
       run: |
         pytest --alluredir=./reports/allure-results --clean-alluredir
 

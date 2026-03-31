@@ -3,7 +3,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from src.pages.base_page import BasePage
+from src.pages.header_component import HeaderComponent
 from src.pages.sidebar_page import SidebarPage
+from src.utils.logger import Step
 
 
 class InventoryPage(BasePage):
@@ -18,6 +20,7 @@ class InventoryPage(BasePage):
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
         self.sidebar = SidebarPage(driver)
+        self.header = HeaderComponent(self.driver)
 
     def is_at(self) -> bool:
         """
@@ -31,3 +34,10 @@ class InventoryPage(BasePage):
         title_visible = self.is_element_visible(self.TITLE)
 
         return url_matches and title_visible
+
+    @Step("Add item '{item_name}' to the shopping cart")
+    def add_item_to_cart(self, item_name: str) -> "InventoryPage":
+        """
+        Add a specific item to the shopping cart by its name.
+        """
+        pass

@@ -1,41 +1,12 @@
-"""
-A. 負面測試 (Negative Testing)
-
-正確帳號 + 錯誤密碼
-
-錯誤帳號 + 正確密碼
-
-帳號空白 + 點擊登入 (驗證錯誤提示字眼)
-
-密碼空白 + 點擊登入
-
-被鎖定的帳號 (SauceDemo 剛好有提供 locked_out_user)
-
-B. 邊界與安全性測試 (Security/Edge Cases)
-
-繞過登入 (Direct Access)：在「未登入」的狀態下，直接用 driver.get("https://.../inventory.html")。預期結果：系統應該要擋下你，並自動跳轉回登入頁，或是顯示「請先登入」的錯誤訊息。（這條必測！）
-
-大小寫敏感度：帳號或密碼輸入大寫，是否會被拒絕？
-
-4. 登出還可以測什麼？ (Logout Test Ideas)
-登出通常與「Session (工作階段)」的清除有關：
-
-跨頁面登出：在商品列表頁 (Inventory) 登出會成功，那如果在購物車頁 (Cart) 打開側邊欄登出，會成功嗎？
-
-多分頁測試 (Multi-tab)：打開兩個分頁都處於登入狀態，在分頁 A 點擊登出，然後切換到分頁 B 點擊重新整理。預期結果：分頁 B 也應該變成登出狀態。
-
-Cookie 清除驗證：登出後，透過 driver.get_cookies() 檢查代表身分驗證的 Cookie 是否已經被刪除。
-"""
 import pytest
 import allure
-from typing import Dict, Any
+from typing import Dict, Any, Callable
 
 from selenium.webdriver.remote.webdriver import WebDriver
 from src.utils.data_helper import load_json
 from src.pages.inventory_page import InventoryPage
 from src.pages.login_page import LoginPage
 from src.utils.config import Config
-from tests.conftest import login_page
 from src.utils.logger import Step
 
 # Load test data globally for parametrization
@@ -44,78 +15,188 @@ NEG_CASES = _LOGIN_DATA["negative_test_users"]
 NEG_IDS = [c["id"] for c in NEG_CASES]
 
 
-@allure.feature("Login Functionality")
+@allure.feature("Authentication")
 class TestLogin:
+    """Test suite for user login functionality and security."""
 
-    @allure.story("Valid Login")
-    @allure.title("Standard User Login Successfully")
+    @allure.story("Happy Path")
+    @allure.title("Standard user logs in successfully")
     @allure.severity(allure.severity_level.BLOCKER)
     def test_standard_user_login(self, cfg: Config, driver: WebDriver, login_page: LoginPage) -> None:
         """
-        Verify that a standard user can successfully log in with valid credentials
-        and is successfully redirected to the Inventory Page.
-
-        Args:
-            cfg (Config): The configuration object containing system environment variables.
-            driver (WebDriver): The Selenium WebDriver instance.
-            login_page (LoginPage): The initialized Login Page object.
+        Verify that a standard user can log in with valid credentials
+        and is redirected to the Inventory Page.
         """
-        with Step(f"Attempting login for standard user: {cfg.STANDARD_USERNAME}"):
-            login_page.login(cfg.STANDARD_USERNAME, cfg.STANDARD_PASSWORD)
+        with Step(f"Attempt login for user: {cfg.STANDARD_USERNAME}"):
+            login_page.login(cfg.STANDARD_USERNAME, cfg.STANDARD_PASSWORD, is_sensitive=True)
 
-        with Step("Verify successful redirection to the Inventory page"):
-            # Using the driver fixture directly to initialize the next page
+        with Step("Verify redirection to the Inventory page"):
             inventory = InventoryPage(driver=driver)
             assert inventory.is_at(), "Login failed: The browser was not redirected to the Inventory Page."
 
-    @allure.story("Negative Login Scenarios")
-    @allure.title("Invalid Login Attempts")
+    @allure.story("Negative Scenarios")
+    @allure.title("Invalid login attempts validation")
     @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.parametrize("case", NEG_CASES, ids=NEG_IDS)
     def test_login_failures(self, login_page: LoginPage, case: Dict[str, Any]) -> None:
         """
-        Verify various negative login scenarios (e.g., incorrect password,
-        non-existent account) and ensure the correct error message is displayed.
-
-        Args:
-            login_page (LoginPage): The initialized Login Page object.
-            case (Dict[str, Any]): A dictionary containing test data for a specific
-                                   negative scenario (keys: user, pass, expected_error, desc).
+        Verify various negative login scenarios and ensure the correct error message is displayed.
         """
         allure.dynamic.title(f"Negative Test: {case['desc']}")
 
-        with Step(f"Attempting login with username: '{case['user']}'"):
+        with Step(f"Attempt login with username: '{case['user']}'"):
             login_page.login(case["user"], case["pass"])
 
         with Step("Verify the correct error message is displayed"):
             actual_error = login_page.get_error_message()
+            assert actual_error == case["expected_error"], \
+                f"Validation mismatch for scenario '{case['desc']}'. \n" \
+                f"Expected: '{case['expected_error']}' \n" \
+                f"Actual: '{actual_error}'"
 
-        assert actual_error == case["expected_error"], \
-            f"Validation mismatch for scenario '{case['desc']}'. \n" \
-            f"Expected: '{case['expected_error']}' \n" \
-            f"Actual: '{actual_error}'"
-
-@allure.feature("Logout Functionality")
-class TestLogout:
-    @allure.story("Logout Flow")
-    @allure.title("A User Logout Successfully")
+    @allure.story("Security")
+    @allure.title("Login credentials case sensitivity check")
     @allure.severity(allure.severity_level.CRITICAL)
-    def test_logout_success(self, driver: WebDriver, inventory_page: InventoryPage):
-        with Step("Logout the page"):
+    @pytest.mark.parametrize(
+        "user_transform, pwd_transform, label",
+        [
+            (lambda s: s.swapcase(), lambda s: s, "Swapped Username Case"),
+            (lambda s: s, lambda s: s.swapcase(), "Swapped Password Case")
+        ],
+        ids=["swap_user", "swap_password"]
+    )
+    def test_login_case_sensitivity(
+            self, cfg: Config, driver: WebDriver, login_page: LoginPage,
+            user_transform: Callable[[str], str], pwd_transform: Callable[[str], str], label: str
+    ) -> None:
+        """
+        Verify that login fails if the casing of the username or password is incorrect.
+        """
+        allure.dynamic.title(f"Case Sensitivity Test: {label}")
+
+        target_user = user_transform(cfg.STANDARD_USERNAME)
+        target_pwd = pwd_transform(cfg.STANDARD_PASSWORD)
+
+        with Step(f"Attempt login with {label}"):
+            login_page.login(target_user, target_pwd, is_sensitive=True)
+
+        with Step("Verify login failed due to incorrect casing"):
+            error_msg = login_page.get_error_message()
+            assert login_page.is_at(), "Security Risk: Should remain on the Login page."
+            assert "do not match" in error_msg, \
+                f"Validation mismatch. Expected 'do not match' error, got: '{error_msg}'"
+
+    @allure.story("Security")
+    @allure.title("Prevent direct access to inventory without authentication")
+    @allure.severity(allure.severity_level.BLOCKER)
+    def test_direct_access_prevention(self, driver: WebDriver) -> None:
+        """
+        Verify that an unauthenticated user cannot directly access the inventory page via URL.
+        """
+        inventory_page = InventoryPage(driver)
+
+        with Step("Attempt to navigate directly to the inventory page"):
+            inventory_page.load()
+
+        with Step("Verify access is denied and user is redirected or blocked"):
+            assert not inventory_page.is_at(), "Security Breach: Inventory page loaded without login."
+
+    @allure.story("Session Management")
+    @allure.title("Session persists across multiple tabs")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_multi_tab_login_persistence(self, driver: WebDriver, login_page: LoginPage) -> None:
+        """
+        Verify that once a user is logged in, opening a new tab and navigating
+        to the app retains the logged-in state without requiring re-authentication.
+        """
+        with Step("Log in successfully in the first tab"):
+            inventory_page = login_page.login_success("standard_user", "secret_sauce")
+
+        with Step("Open a new tab and navigate to the inventory page directly"):
+            driver.switch_to.new_window('tab')
+            inventory_page.load()
+
+        with Step("Verify the new tab is also logged in"):
+            assert inventory_page.is_at(), "Session did not persist in the new tab."
+
+
+@allure.feature("Authentication")
+class TestLogout:
+    """Test suite for user logout functionality and session termination."""
+
+    @allure.story("Happy Path")
+    @allure.title("User logs out successfully from the main page")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_logout_success(self, driver: WebDriver, inventory_page: InventoryPage) -> None:
+        """
+        Verify that a logged-in user can successfully log out via the sidebar menu.
+        """
+        with Step("Execute logout flow via sidebar"):
             inventory_page.sidebar.open_menu().click_logout()
             login_page = LoginPage(driver=driver)
 
-        assert login_page.is_at()
+        with Step("Verify redirection to the Login page"):
+            assert login_page.is_at(), "Logout Failed: Not redirected to the login page."
 
     @allure.story("Security")
-    @allure.title("A User Logout Successfully cannot go back to recover the login status")
+    @allure.title("Session cookie is cleared upon logout")
     @allure.severity(allure.severity_level.CRITICAL)
-    def test_logout_security_back_button(self, driver: WebDriver, inventory_page: InventoryPage):
-        with Step("Logout the page"):
+    def test_logout_clears_session_cookie(self, driver: WebDriver, inventory_page: InventoryPage) -> None:
+        """
+        Verify that the authentication cookie is completely removed from the browser.
+        """
+        auth_cookie_name = "session-username"
+
+        with Step("Verify the authentication cookie exists before logging out"):
+            assert driver.get_cookie(auth_cookie_name) is not None, \
+                f"Expected cookie '{auth_cookie_name}' to be present."
+
+        with Step("Perform logout flow"):
             inventory_page.sidebar.open_menu().click_logout()
-            login_page = LoginPage(driver=driver).verify()
-        with Step("Go back to the previous page"):
+
+        with Step("Verify the authentication cookie is deleted"):
+            assert driver.get_cookie(auth_cookie_name) is None, \
+                f"Security Risk: Cookie '{auth_cookie_name}' still exists after logout!"
+
+    @allure.story("Security")
+    @allure.title("Browser back button does not restore active session")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_logout_security_back_button(self, driver: WebDriver, inventory_page: InventoryPage) -> None:
+        """
+        Verify that a user cannot navigate back to a protected page using the browser's
+        back button after logging out.
+        """
+        with Step("Perform logout flow"):
+            inventory_page.sidebar.open_menu().click_logout()
+            login_page = LoginPage(driver=driver)
+
+        with Step("Trigger browser back navigation"):
             driver.back()
 
-        assert inventory_page.is_at() is False
-        assert login_page.is_at()
+        with Step("Verify the session remains terminated"):
+            assert not inventory_page.is_at(), "Security Breach: User accessed inventory after logout."
+            assert login_page.is_at(), "Security Check Failed: User not on Login page."
+
+    @allure.story("Security")
+    @allure.title("Multi-tab session sync upon logout")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_logout_multi_tab_sync(self, driver: WebDriver, inventory_page: InventoryPage) -> None:
+        """
+        Verify that logging out in one tab invalidates the session in all other open tabs.
+        """
+        with Step("Open a duplicate tab with the active session"):
+            original_window = driver.current_window_handle
+            driver.switch_to.new_window('tab')
+            inventory_page.load()
+
+        with Step("Perform logout in the secondary tab"):
+            inventory_page.sidebar.open_menu().click_logout()
+            login_page = LoginPage(driver=driver)
+            assert login_page.is_at(), "Failed to logout in the secondary tab."
+
+        with Step("Switch back to the primary tab and refresh"):
+            driver.switch_to.window(original_window)
+            driver.refresh()
+
+        with Step("Verify the primary tab is also logged out"):
+            assert login_page.is_at(), "Security Breach: Primary tab remained logged in."
