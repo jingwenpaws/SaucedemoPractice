@@ -2,7 +2,6 @@ env: prod
 driver:
   timeout: 10 # unit: second
   browser: "chrome" # or "firefox", "edge"
-  headless: true
   window_size:
     width: 1920
     height: 1080

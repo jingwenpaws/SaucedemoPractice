@@ -53,6 +53,7 @@ Create a `.env` file in the root directory and add your local testing credential
 ```.env
 STANDARD_USERNAME=your_username
 STANDARD_PASSWORD=your_password
+HEADLESS=true or false
 ```
 ### 5. Install Allure Commandline (For test reporting)
 * macOS: `brew install allure`

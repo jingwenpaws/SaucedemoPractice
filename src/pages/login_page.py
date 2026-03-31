@@ -32,7 +32,7 @@ class LoginPage(BasePage):
 
         return is_url_correct and is_element_visible
 
-    def login(self, username: str, password: str) -> None:
+    def login(self, username: str, password: str, is_sensitive: bool = False) -> None:
         """
         Perform the base login UI actions (input credentials and click login)
         without expecting or returning a specific page transition.
@@ -41,12 +41,13 @@ class LoginPage(BasePage):
         Args:
             username: The username string to enter.
             password: The password string to enter.
+            is_sensitive (bool): Whether to mask the key in logs. Defaults to False
         """
         self.send_keys(LoginPageLocators.USERNAME_FIELD, username)
-        self.send_keys(LoginPageLocators.PASSWORD_FIELD, password)
+        self.send_keys(LoginPageLocators.PASSWORD_FIELD, password, is_sensitive=is_sensitive)
         self.click(LoginPageLocators.LOGIN_BUTTON)
 
-    def login_success(self, username: str, password: str) -> InventoryPage:
+    def login_success(self, username: str, password: str, is_sensitive: bool = True) -> InventoryPage:
         """
         Perform a login action with valid credentials and transition to the Inventory Page.
         Ideal for happy path scenarios.
@@ -54,11 +55,12 @@ class LoginPage(BasePage):
         Args:
             username: The username string to enter.
             password: The password string to enter.
+            is_sensitive (bool): Whether to mask the key in logs. Defaults to True
 
         Returns:
             InventoryPage: The page object for the Inventory Page after a successful login.
         """
-        self.login(username, password)
+        self.login(username, password, is_sensitive=is_sensitive)
         return InventoryPage(self.driver)
 
     def get_error_message(self) -> str:
