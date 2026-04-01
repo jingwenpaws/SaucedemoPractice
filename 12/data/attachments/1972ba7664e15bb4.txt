@@ -1,0 +1,23 @@
+INFO     tests.conftest:conftest.py:102 Initializing the browser session...
+INFO     WDM:logger.py:11 ====== WebDriver manager ======
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 Driver [/home/runner/.wdm/drivers/chromedriver/linux64/146.0.7680.165/chromedriver-linux64/chromedriver] found in cache
+INFO     src.pages.base_page:base_page.py:52 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_page:base_page.py:79 Successfully verified location: LoginPage
+INFO     src.pages.base_ui:base_ui.py:117 Typing 'standard_user' into element: ('id', 'user-name')
+INFO     src.pages.base_ui:base_ui.py:117 Typing '********' into element: ('id', 'password')
+INFO     src.pages.base_page:base_page.py:79 Successfully verified location: InventoryPage
+INFO     src.utils.logger:logger.py:24 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:25 STEP: Verify the authentication cookie exists before logging out
+INFO     src.utils.logger:logger.py:26 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:43 *** STEP SUCCESSFUL: Verify the authentication cookie exists before logging out ***
+INFO     src.utils.logger:logger.py:24 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:25 STEP: Perform logout flow
+INFO     src.utils.logger:logger.py:26 ══════════════════════════════════════════════════════════════════════
+ERROR    src.utils.logger:logger.py:38 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ERROR    src.utils.logger:logger.py:39 STEP FAILED: Perform logout flow
+ERROR    src.utils.logger:logger.py:40 Reason: Message: 
+
+ERROR    src.utils.logger:logger.py:41 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+INFO     tests.conftest:conftest.py:124 Terminating the browser session...
