@@ -16,5 +16,5 @@ BASE_URLS = {
     # However, actually we don't have permission to access these environments of saucedemo.com
     # That's why all environments are the same as production
     "qa": "https://www.saucedemo.com",
-    "stage": "https://www.saucedemo.com"
+    "staging": "https://www.saucedemo.com"
 }
