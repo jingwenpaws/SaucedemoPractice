@@ -91,6 +91,11 @@ class Config:
             data = yaml.safe_load(f)
 
         config_obj = MapObject(data)
+        override_env = os.getenv("TEST_ENV")
+        if override_env:
+            logger.info(f"Overriding YAML environment with OS TEST_ENV: '{override_env}'")
+            config_obj.env = override_env
+
         config_obj.BASE_URL = cls._get_base_url(config_obj.env)
 
         config_obj.STANDARD_USERNAME = os.getenv("STANDARD_USERNAME")
