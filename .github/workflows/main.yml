@@ -5,6 +5,17 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      test_env:
+        description: 'Choose the target environment'
+        required: true
+        default: 'qa'
+        type: choice
+        options:
+          - qa
+          - staging
+          - prod
 
 jobs:
   test:
@@ -34,6 +45,7 @@ jobs:
         STANDARD_USERNAME: ${{ secrets.STANDARD_USERNAME }}
         STANDARD_PASSWORD: ${{ secrets.STANDARD_PASSWORD }}
         HEADLESS: ${{ secrets.HEADLESS }}
+        TEST_ENV: ${{ inputs.test_env || 'qa' }}
       run: |
         pytest --alluredir=./reports/allure-results --clean-alluredir
 
