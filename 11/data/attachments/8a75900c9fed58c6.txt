@@ -1,0 +1,27 @@
+INFO     src.utils.config:config.py:88 Initializing configuration for the first time. Loading: config.yaml
+INFO     src.utils.config:config.py:96 Overriding YAML environment with OS TEST_ENV: 'qa'
+INFO     tests.conftest:conftest.py:102 Initializing the browser session...
+INFO     WDM:logger.py:11 ====== WebDriver manager ======
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 There is no [linux64] chromedriver "146.0.7680.165" for browser google-chrome "146.0.7680" in cache
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 WebDriver version 146.0.7680.165 selected
+INFO     WDM:logger.py:11 Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/146.0.7680.165/linux64/chromedriver-linux64.zip
+INFO     WDM:logger.py:11 About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/146.0.7680.165/linux64/chromedriver-linux64.zip
+INFO     WDM:logger.py:11 Driver downloading response is 200
+INFO     WDM:logger.py:11 Get LATEST chromedriver version for google-chrome
+INFO     WDM:logger.py:11 Driver has been saved in cache [/home/runner/.wdm/drivers/chromedriver/linux64/146.0.7680.165]
+INFO     src.pages.base_page:base_page.py:52 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_page:base_page.py:79 Successfully verified location: LoginPage
+INFO     src.utils.logger:logger.py:24 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:25 STEP: Attempt login for user: standard_user
+INFO     src.utils.logger:logger.py:26 ══════════════════════════════════════════════════════════════════════
+INFO     src.pages.base_ui:base_ui.py:117 Typing 'standard_user' into element: ('id', 'user-name')
+INFO     src.pages.base_ui:base_ui.py:117 Typing '********' into element: ('id', 'password')
+INFO     src.utils.logger:logger.py:43 *** STEP SUCCESSFUL: Attempt login for user: standard_user ***
+INFO     src.utils.logger:logger.py:24 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:25 STEP: Verify redirection to the Inventory page
+INFO     src.utils.logger:logger.py:26 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:logger.py:43 *** STEP SUCCESSFUL: Verify redirection to the Inventory page ***
+INFO     tests.conftest:conftest.py:124 Terminating the browser session...
