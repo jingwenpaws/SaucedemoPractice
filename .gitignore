@@ -1,9 +1,7 @@
-# IDE Settings (JetBrains/VS Code)
 .idea/
 *.iml
 .vscode/
 
-# Python environment and bytecode
 __pycache__/
 *.py[cod]
 *$py.class
@@ -12,7 +10,6 @@ venv/
 ENV/
 env/
 
-# Testing (Pytest, Coverage)
 .pytest_cache/
 .tox/
 .nox/
@@ -22,16 +19,13 @@ nosetests.xml
 coverage.xml
 *.py,cover
 
-# Reports (Allure)
 allure-results/
 allure-report/
-
-# Logs and Assets
 logs/
 *.log
 screenshots/
 
-# Environment Variables and Secrets
+config.yaml
 .env
 .venv
 pip-log.txt
