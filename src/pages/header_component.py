@@ -1,6 +1,10 @@
 from selenium.webdriver.common.by import By
+from typing import TYPE_CHECKING
 from src.pages.base_ui import BaseUI
 from src.utils.logger import Step
+
+if TYPE_CHECKING:
+    from src.pages.cart_page import CartPage
 
 
 class HeaderLocators:
@@ -35,12 +39,13 @@ class HeaderComponent(BaseUI):
         return 0
 
     @Step("Click the shopping cart icon")
-    def click_cart(self) -> None:
+    def click_cart(self) -> "CartPage":
         """
         Click the shopping cart icon to navigate to the Cart Page.
 
-        Note:
-            Page transition initialization (e.g., returning CartPage) should typically
-            be handled by the caller or a wrapper method to avoid circular imports.
+        Returns:
+            CartPage: The page object for the Cart Page.
         """
         self.click(HeaderLocators.CART_ICON)
+        from src.pages.cart_page import CartPage
+        return CartPage(self.driver)

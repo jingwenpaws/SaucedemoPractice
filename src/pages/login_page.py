@@ -1,10 +1,13 @@
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
+from typing import TYPE_CHECKING
 
 from src.constants.constants import PageUrls
-from src.pages.inventory_page import InventoryPage
 from src.pages.base_page import BasePage
 from src.utils.logger import Step
+
+if TYPE_CHECKING:
+    from src.pages.inventory_page import InventoryPage
 
 
 class LoginPageLocators:
@@ -56,7 +59,7 @@ class LoginPage(BasePage):
         self.click(LoginPageLocators.LOGIN_BUTTON)
 
     @Step("Login as '{username}' and expect it to be successful")
-    def login_success(self, username: str, password: str, is_sensitive: bool = True) -> InventoryPage:
+    def login_success(self, username: str, password: str, is_sensitive: bool = True) -> "InventoryPage":
         """
         Perform a login action with valid credentials and transition to the Inventory Page.
         Ideal for happy path scenarios.
@@ -70,6 +73,7 @@ class LoginPage(BasePage):
             InventoryPage: The page object for the Inventory Page after a successful login.
         """
         self.login(username, password, is_sensitive=is_sensitive)
+        from src.pages.inventory_page import InventoryPage
         return InventoryPage(self.driver)
 
     def get_error_message(self) -> str:
