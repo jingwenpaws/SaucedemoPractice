@@ -1,6 +1,9 @@
+import time
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
+from src.constants.constants import PageUrls, DefaultItemAttributes
 from src.pages.base_page import BasePage
 from src.pages.header_component import HeaderComponent
 from src.pages.sidebar_page import SidebarPage
@@ -11,6 +14,7 @@ class InventoryPageLocators:
     SORT_DROPDOWN = (By.CSS_SELECTOR, "select[data-test='product-sort-container']")
     ITEM_PRICES = (By.CSS_SELECTOR, "div[data-test='inventory-item-price']")
     ITEM_NAMES = (By.CSS_SELECTOR, "div[data-test='inventory-item-name']")
+    ITEM_IMAGES = (By.CSS_SELECTOR, "img[data-test^='inventory-item-']")
 
     @staticmethod
     def _to_slug(item_name: str) -> str:
@@ -27,6 +31,14 @@ class InventoryPageLocators:
         """Dynamic locator for the Remove button based on the raw item name."""
         return (By.CSS_SELECTOR, f"button[data-test='remove-{cls._to_slug(item_name)}']")
 
+    @staticmethod
+    def item_name_link(item_name: str) -> tuple:
+        return (By.XPATH, f"//div[@data-test='inventory-item-name' and text()='{item_name}']")
+
+    @staticmethod
+    def item_image_link(item_name: str) -> tuple:
+        return (By.CSS_SELECTOR, f"img[alt='{item_name}']")
+
 
 class InventoryPage(BasePage):
     """
@@ -35,7 +47,7 @@ class InventoryPage(BasePage):
     This page contains the product list and is typically accessed after a
     successful login.
     """
-    URL_PATH = "/inventory.html"
+    URL_PATH = PageUrls.INVENTORY
     TITLE = (By.CLASS_NAME, "title")
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -43,17 +55,14 @@ class InventoryPage(BasePage):
         self.header = HeaderComponent(self.driver)
 
     def is_at(self) -> bool:
-        """
-        Verify if the browser is currently on the Inventory page by checking
-        the URL and the visibility of the page title.
+        if not super().is_at():
+            return False
 
-        Returns:
-            bool: True if both the URL matches and the title element is displayed.
-        """
-        url_matches = self.URL_PATH in self.driver.current_url
-        title_visible = self.is_element_visible(self.TITLE)
-
-        return url_matches and title_visible
+        try:
+            self.find_element(self.TITLE)
+            return True
+        except TimeoutException:
+            return False
 
     @Step("Add item '{item_name}' to the shopping cart")
     def add_item_to_cart(self, item_name: str) -> "InventoryPage":
@@ -76,7 +85,7 @@ class InventoryPage(BasePage):
             item_name: The exact text of the item name (e.g., "Sauce Labs Backpack").
         """
         locator = InventoryPageLocators.remove_button(item_name)
-        self.click(locator, force=True)
+        self.click(locator)
         return self
 
     @Step("Select {sort_value} to sort the inventory items")
@@ -99,3 +108,47 @@ class InventoryPage(BasePage):
         """Get all item names to a string list"""
         name_elements = self.find_elements(InventoryPageLocators.ITEM_NAMES)
         return [e.text for e in name_elements]
+
+    @Step("Click on item name '{item_name}' to view details")
+    def click_item_name(self, item_name: str) -> None:
+        locator = InventoryPageLocators.item_name_link(item_name)
+        for _ in range(3):
+            self.click(locator)
+            if self.wait_for_url_contains(PageUrls.PRODUCT_DETAIL, timeout=1):
+                return
+            self.logger.warning(f"React hydration lag detected for '{item_name}'. Retrying click...")
+
+            time.sleep(0.5)
+
+        raise Exception(f"Failed to navigate. The link for '{item_name}' is unresponsive.")
+
+    @Step("Click on item image '{item_name}' to view details")
+    def click_item_image(self, item_name: str) -> None:
+        locator = InventoryPageLocators.item_image_link(item_name)
+        self.click(locator)
+
+    @Step("Check for any broken or incorrect (dog placeholder) images on the page")
+    def get_broken_images(self) -> list[str]:
+        """
+        Verify all product images are fully loaded and are not replaced by placeholders.
+        """
+        images = self.find_elements(InventoryPageLocators.ITEM_IMAGES)
+        broken_images = []
+
+        for img in images:
+            image_name = img.get_attribute("alt") or "Unknown Image"
+            src = img.get_attribute("src")
+
+            if src and DefaultItemAttributes.IMAGE_DOG_SLUG in src.lower():
+                broken_images.append(f"{image_name} (Error: Replaced by the placeholder!)")
+                continue
+
+            is_loaded = self.driver.execute_script(
+                "return typeof arguments[0].naturalWidth != 'undefined' && arguments[0].naturalWidth > 0;",
+                img
+            )
+
+            if not is_loaded:
+                broken_images.append(f"{image_name} (Error: Image broken or failed to load)")
+
+        return broken_images

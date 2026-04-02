@@ -3,6 +3,7 @@ import pytest
 
 from src.constants.constants import InventoryTestData, InventoryItemsSortingValues
 from src.pages.inventory_page import InventoryPage
+from src.pages.product_detail_page import ProductDetailPage
 from src.utils.logger import Step
 
 
@@ -86,3 +87,67 @@ class TestInventoryInteractions:
 
             assert actual_names == expected_names, \
                 f"Name sorting failed for '{label}'. Expected: {expected_names}, Actual: {actual_names}"
+
+    @pytest.mark.parametrize(
+        "click_logic, label",
+        [
+            pytest.param(lambda page, item: page.click_item_name(item), 'name'),
+            pytest.param(lambda page, item: page.click_item_image(item), 'image')
+    ], ids=["name_click", "image_click"])
+    def test_navigate_to_product_detail(self, driver, inventory_page: InventoryPage, click_logic, label) -> None:
+        """Verify that clicking a product name or image opens its detail page."""
+        allure.dynamic.title(f"Clicking an item {label} navigates to the Product Detail Page")
+        target_item = InventoryTestData.MAIN_PRODUCT
+        with Step(f"Click on the product {label}: '{target_item}'"):
+            click_logic(inventory_page, target_item)
+
+        with Step("Verify navigation to the Product Detail Page"):
+            product_detail_page = ProductDetailPage(driver, target_item)
+            assert product_detail_page.is_at(), \
+                f"Failed to navigate to the {target_item} product detail page."
+
+    @allure.story("Navigation")
+    @allure.title("Dynamic Exhaustive Test: Verify all visible items can navigate to PDP")
+    def test_all_products_navigable(self, driver, inventory_page: InventoryPage) -> None:
+        """Dynamically fetch all items on the page and verify their navigation."""
+
+        with Step("Fetch all available product names from the current page"):
+            all_item_names = inventory_page.get_all_item_names()
+
+        with Step("Iterate through each product and verify navigation"):
+            failed_items = []
+            for item_name in all_item_names:
+                try:
+                    inventory_page.click_item_name(item_name)
+
+                    product_detail_page = ProductDetailPage(driver, item_name)
+                    assert product_detail_page.is_at()
+
+                    product_detail_page.go_back_to_products_page()
+                    assert inventory_page.is_at(), "Failed to wait for the inventory page to reload after going back."
+
+                except Exception as e:
+                    failed_items.append(f"'{item_name}' failed: {str(e)}")
+                    inventory_page.load().verify()
+
+            if failed_items:
+                formatted_errors = "\n- ".join(failed_items)
+                error_message = f"The following {len(failed_items)} items failed navigation:\n- {formatted_errors}"
+
+                pytest.fail(error_message)
+
+    @allure.story("UI Integrity")
+    @allure.title("Verify all product images load successfully without broken links")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_all_product_images_loaded(self, inventory_page: InventoryPage) -> None:
+        """Verify that no broken images are displayed on the inventory page."""
+
+        with Step("Scan all product images for rendering failures"):
+            broken_images = inventory_page.get_broken_images()
+
+        with Step("Verify the broken images list is empty"):
+            if broken_images:
+                formatted_errors = "\n- ".join(broken_images)
+                error_message = f"Found {len(broken_images)} broken images on the page:\n- {formatted_errors}"
+
+                pytest.fail(error_message)

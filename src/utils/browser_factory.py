@@ -9,7 +9,6 @@ def _build_chrome_options(cfg: Any) -> webdriver.ChromeOptions:
     """Builds and returns the ChromeOptions based on the configuration."""
     options = webdriver.ChromeOptions()
 
-    # 核心設定：無痕模式 + 視窗大小
     arguments = [
         "--incognito",
         "--disable-search-engine-choice-screen",
