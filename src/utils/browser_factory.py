@@ -22,7 +22,6 @@ def _build_chrome_options(cfg: Any) -> webdriver.ChromeOptions:
     for arg in arguments:
         options.add_argument(arg)
 
-    # 排除自動化提示即可
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option("useAutomationExtension", False)
 
