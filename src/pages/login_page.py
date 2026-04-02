@@ -1,5 +1,7 @@
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 
+from src.constants.constants import PageUrls
 from src.pages.inventory_page import InventoryPage
 from src.pages.base_page import BasePage
 from src.utils.logger import Step
@@ -19,7 +21,7 @@ class LoginPage(BasePage):
     """
     Page Object for the Login Page, providing methods to authenticate users.
     """
-    URL_PATH = "/"
+    URL_PATH = PageUrls.LOGIN
 
     def is_at(self) -> bool:
         """
@@ -28,10 +30,14 @@ class LoginPage(BasePage):
         Returns:
             bool: True if both the URL matches and the username field is visible.
         """
-        is_url_correct = self.URL_PATH in self.driver.current_url
-        is_element_visible = self.is_element_visible(LoginPageLocators.USERNAME_FIELD)
+        if not super().is_at():
+            return False
 
-        return is_url_correct and is_element_visible
+        try:
+            self.find_element(LoginPageLocators.USERNAME_FIELD)
+            return True
+        except TimeoutException:
+            return False
 
     @Step("Attempt to login as '{username}'")
     def login(self, username: str, password: str, is_sensitive: bool = False) -> None:
