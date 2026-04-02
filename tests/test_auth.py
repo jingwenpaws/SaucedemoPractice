@@ -112,7 +112,8 @@ class TestLogin:
             inventory_page = login_page.login_success("standard_user", "secret_sauce")
 
         with Step("Open a new tab and navigate to the inventory page directly"):
-            driver.switch_to.new_window('tab')
+            driver.execute_script("window.open('about:blank', '_blank');")
+            driver.switch_to.window(driver.window_handles[-1])
             inventory_page.load()
 
         with Step("Verify the new tab is also logged in"):
@@ -207,7 +208,8 @@ class TestLogout:
         """
         with Step("Open a duplicate tab with the active session"):
             original_window = driver.current_window_handle
-            driver.switch_to.new_window('tab')
+            driver.execute_script("window.open('about:blank', '_blank');")
+            driver.switch_to.window(driver.window_handles[-1])
             inventory_page.load()
 
         with Step("Perform logout in the secondary tab"):
