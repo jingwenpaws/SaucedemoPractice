@@ -1,0 +1,19 @@
+INFO     tests.conftest:conftest.py:105 Initializing the browser session...
+INFO     src.pages.base_ui:base_page.py:49 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:87 Successfully verified location: LoginPage
+INFO     src.utils.logger:conftest.py:156 Action: Login as 'standard_user' and expect it to be successful
+INFO     src.utils.logger:login_page.py:72 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing '********' into element: ('css selector', '#password')
+INFO     src.pages.base_ui:base_page.py:87 Successfully verified location: InventoryPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:19 STEP: Add a single item to the cart
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:20 Action: Add item 'Sauce Labs Backpack' to the shopping cart
+INFO     src.utils.logger:test_inventory.py:19 *** STEP SUCCESSFUL: Add a single item to the cart ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:22 STEP: Verify the cart badge displays '1'
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:23 Action: Retrieve the current item count from the shopping cart badge
+INFO     src.utils.logger:test_inventory.py:22 *** STEP SUCCESSFUL: Verify the cart badge displays '1' ***
+INFO     tests.conftest:conftest.py:127 Terminating the browser session...

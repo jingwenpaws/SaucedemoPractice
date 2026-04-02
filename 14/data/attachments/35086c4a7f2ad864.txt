@@ -1,0 +1,15 @@
+INFO     tests.conftest:conftest.py:105 Initializing the browser session...
+INFO     src.pages.base_ui:base_page.py:49 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:87 Successfully verified location: LoginPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:47 STEP: Attempt login with username: 'standard_user'
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:48 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'wrong_123' into element: ('css selector', '#password')
+INFO     src.utils.logger:test_auth.py:47 *** STEP SUCCESSFUL: Attempt login with username: 'standard_user' ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:50 STEP: Verify the correct error message is displayed
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:50 *** STEP SUCCESSFUL: Verify the correct error message is displayed ***
+INFO     tests.conftest:conftest.py:127 Terminating the browser session...
