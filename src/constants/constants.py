@@ -1,6 +1,15 @@
 from pathlib import Path
 
 
+# page urls
+class PageUrls:
+    LOGIN = "/"
+    INVENTORY = "/inventory.html"
+    PRODUCT_DETAIL = "/inventory-item.html"
+    CART = "/cart.html"
+    CHECKOUT_INFO = "/checkout-step-one.html"
+
+
 # paths
 class Paths:
     ROOT = Path(__file__).resolve().parent.parent.parent
@@ -11,11 +20,17 @@ class Paths:
 class InventoryTestData:
     MAIN_PRODUCT = "Sauce Labs Backpack"
 
+
 class InventoryItemsSortingValues:
     LOW_TO_HIGH = "lohi"
     HIGH_TO_LOW = "hilo"
     A_TO_Z = "az"
     Z_TO_A = "za"
+
+
+class DefaultItemAttributes:
+    IMAGE_DOG_SLUG = "sl-404"
+
 
 # base url
 BASE_URLS = {
