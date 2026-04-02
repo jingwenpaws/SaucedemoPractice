@@ -112,15 +112,7 @@ class InventoryPage(BasePage):
     @Step("Click on item name '{item_name}' to view details")
     def click_item_name(self, item_name: str) -> None:
         locator = InventoryPageLocators.item_name_link(item_name)
-        for _ in range(3):
-            self.click(locator)
-            if self.wait_for_url_contains(PageUrls.PRODUCT_DETAIL, timeout=1):
-                return
-            self.logger.warning(f"React hydration lag detected for '{item_name}'. Retrying click...")
-
-            time.sleep(0.5)
-
-        raise Exception(f"Failed to navigate. The link for '{item_name}' is unresponsive.")
+        self.click(locator)
 
     @Step("Click on item image '{item_name}' to view details")
     def click_item_image(self, item_name: str) -> None:
