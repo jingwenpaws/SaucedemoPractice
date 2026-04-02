@@ -43,4 +43,4 @@ class HeaderComponent(BaseUI):
             Page transition initialization (e.g., returning CartPage) should typically
             be handled by the caller or a wrapper method to avoid circular imports.
         """
-        self.click(HeaderLocators.CART_ICON, force=True)
+        self.click(HeaderLocators.CART_ICON)
