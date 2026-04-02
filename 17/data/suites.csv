@@ -1,0 +1,57 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+        Verify that once a user is logged in, opening a new tab and navigating
+        to the app retains the logged-in state without requiring re-authentication.
+        ","446","Session persists across multiple tabs","tests","Thu Apr 02 06:07:18 UTC 2026","passed","Thu Apr 02 06:07:19 UTC 2026","TestLogin","test_auth","",""
+"Verify that the inventory items can be correctly sorted by name.","111","Verify items can be sorted by name (Z to A)","tests","Thu Apr 02 06:07:44 UTC 2026","passed","Thu Apr 02 06:07:45 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"Verify that the inventory items can be correctly sorted by price.","111","Verify items can be sorted by price (High to Low)","tests","Thu Apr 02 06:07:42 UTC 2026","passed","Thu Apr 02 06:07:42 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"Dynamically fetch all items on the page and verify their navigation.","1111","Dynamic Exhaustive Test: Verify all visible items can navigate to PDP","tests","Thu Apr 02 06:07:48 UTC 2026","passed","Thu Apr 02 06:07:49 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"
+        Verify that a standard user can log in with valid credentials
+        and is redirected to the Inventory Page.
+        ","346","Standard user logs in successfully","tests","Thu Apr 02 06:07:01 UTC 2026","passed","Thu Apr 02 06:07:01 UTC 2026","TestLogin","test_auth","",""
+"Verify that clicking a product name or image opens its detail page.","100","Clicking an item name navigates to the Product Detail Page","tests","Thu Apr 02 06:07:46 UTC 2026","passed","Thu Apr 02 06:07:46 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"
+        Verify that a user cannot navigate back to a protected page using the browser's
+        back button after logging out.
+        ","10762","Browser back button does not restore active session","tests","Thu Apr 02 06:07:24 UTC 2026","passed","Thu Apr 02 06:07:35 UTC 2026","TestLogout","test_auth","",""
+"
+        Verify that an unauthenticated user cannot directly access the inventory page via URL.
+        ","10463","Prevent direct access to inventory without authentication","tests","Thu Apr 02 06:07:07 UTC 2026","passed","Thu Apr 02 06:07:18 UTC 2026","TestLogin","test_auth","",""
+"Verify that the inventory items can be correctly sorted by price.","111","Verify items can be sorted by price (Low to High)","tests","Thu Apr 02 06:07:41 UTC 2026","passed","Thu Apr 02 06:07:41 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"
+        Verify that a logged-in user can successfully log out via the sidebar menu.
+        ","679","User logs out successfully from the main page","tests","Thu Apr 02 06:07:21 UTC 2026","passed","Thu Apr 02 06:07:22 UTC 2026","TestLogout","test_auth","",""
+"
+        Verify that login fails if the casing of the username or password is incorrect.
+        ","333","Case Sensitivity Test: Swapped Username Case","tests","Thu Apr 02 06:07:06 UTC 2026","passed","Thu Apr 02 06:07:06 UTC 2026","TestLogin","test_auth","",""
+"
+        Simulate a session timeout by clearing browser cookies and verify the system
+        denies access to protected pages.
+        ","126","Verify redirection to login page after session expiration","tests","Thu Apr 02 06:07:20 UTC 2026","passed","Thu Apr 02 06:07:20 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify that the authentication cookie is completely removed from the browser.
+        ","665","Session cookie is cleared upon logout","tests","Thu Apr 02 06:07:23 UTC 2026","passed","Thu Apr 02 06:07:23 UTC 2026","TestLogout","test_auth","",""
+"Verify that removing an item correctly decrements/removes the header cart badge.","1191","Removing an item updates the cart badge count","tests","Thu Apr 02 06:07:39 UTC 2026","passed","Thu Apr 02 06:07:40 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"
+        Verify various negative login scenarios and ensure the correct error message is displayed.
+        ","292","Negative Test: Empty Account","tests","Thu Apr 02 06:07:04 UTC 2026","passed","Thu Apr 02 06:07:04 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify various negative login scenarios and ensure the correct error message is displayed.
+        ","307","Negative Test: Wrong Password","tests","Thu Apr 02 06:07:03 UTC 2026","passed","Thu Apr 02 06:07:03 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify that login fails if the casing of the username or password is incorrect.
+        ","325","Case Sensitivity Test: Swapped Password Case","tests","Thu Apr 02 06:07:07 UTC 2026","passed","Thu Apr 02 06:07:07 UTC 2026","TestLogin","test_auth","",""
+"Verify that clicking a product name or image opens its detail page.","105","Clicking an item image navigates to the Product Detail Page","tests","Thu Apr 02 06:07:47 UTC 2026","passed","Thu Apr 02 06:07:47 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"Verify that the inventory items can be correctly sorted by name.","84","Verify items can be sorted by name (A to Z)","tests","Thu Apr 02 06:07:43 UTC 2026","passed","Thu Apr 02 06:07:43 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"Verify that adding a single item correctly updates the header cart badge to 1.","101","Adding an item updates the cart badge count","tests","Thu Apr 02 06:07:38 UTC 2026","passed","Thu Apr 02 06:07:38 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"
+        Verify various negative login scenarios and ensure the correct error message is displayed.
+        ","321","Negative Test: Non-existent Account","tests","Thu Apr 02 06:07:05 UTC 2026","passed","Thu Apr 02 06:07:05 UTC 2026","TestLogin","test_auth","",""
+"Verify that no broken images are displayed on the inventory page.","77","Verify all product images load successfully without broken links","tests","Thu Apr 02 06:07:50 UTC 2026","passed","Thu Apr 02 06:07:50 UTC 2026","TestInventoryInteractions","test_inventory","",""
+"
+        Verify various negative login scenarios and ensure the correct error message is displayed.
+        ","309","Negative Test: Locked Out User","tests","Thu Apr 02 06:07:02 UTC 2026","passed","Thu Apr 02 06:07:02 UTC 2026","TestLogin","test_auth","",""
+"
+        Verify that logging out in one tab invalidates the session in all other open tabs.
+        ","865","Multi-tab session sync upon logout","tests","Thu Apr 02 06:07:36 UTC 2026","passed","Thu Apr 02 06:07:37 UTC 2026","TestLogout","test_auth","",""
