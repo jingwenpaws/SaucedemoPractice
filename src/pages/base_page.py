@@ -1,12 +1,9 @@
-import logging
 from abc import abstractmethod
 
 from src.pages.base_ui import BaseUI
 from src.utils.config import Config
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
-
-logger = logging.getLogger(__name__)
 
 
 class BasePage(BaseUI):
@@ -49,7 +46,7 @@ class BasePage(BaseUI):
             BasePage: The current page instance for method chaining.
         """
         full_url = f"{self.base_url.rstrip('/')}/{self.URL_PATH.lstrip('/')}"
-        logger.info(f"Navigating to: {full_url}")
+        self.logger.info(f"Navigating to: {full_url}")
         self.driver.get(full_url)
         return self
 
@@ -60,7 +57,18 @@ class BasePage(BaseUI):
         Returns:
             bool: True if the current URL matches the expected path, False otherwise.
         """
-        return self.URL_PATH in self.driver.current_url
+        url_matches = self.wait_for_url_contains(self.URL_PATH)
+        if not url_matches:
+            return False
+
+        try:
+            self.wait.until(
+                lambda driver: driver.execute_script("return document.readyState") == "complete"
+            )
+            return True
+        except Exception as e:
+            self.logger.warning(f"Page load not complete within timeout: {e}", stacklevel=2)
+            return False
 
     def verify(self) -> "BasePage":
         """
@@ -76,7 +84,7 @@ class BasePage(BaseUI):
             f"Page verification failed. Current URL '{self.driver.current_url}' "
             f"does not contain expected path '{self.URL_PATH}'"
         )
-        logger.info(f"Successfully verified location: {self.__class__.__name__}")
+        self.logger.info(f"Successfully verified location: {self.__class__.__name__}")
         return self
 
     def get_title(self) -> str:

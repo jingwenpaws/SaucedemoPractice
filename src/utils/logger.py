@@ -1,3 +1,4 @@
+import inspect
 import logging
 from functools import wraps
 from typing import Any, Callable, Optional, Type
@@ -22,7 +23,7 @@ class Step:
     def __enter__(self) -> "Step":
         banner = "═" * self.width
         logger.info(banner)
-        logger.info(f"STEP: {self.title}")
+        logger.info(f"STEP: {self.title}", stacklevel=2)
         logger.info(banner)
         self._allure_step.__enter__()
         return self
@@ -36,21 +37,32 @@ class Step:
         if exc_type:
             err_banner = "!" * self.width
             logger.error(err_banner)
-            logger.error(f"STEP FAILED: {self.title}")
-            logger.error(f"Reason: {exc_val}")
+            logger.error(f"STEP FAILED: {self.title}", stacklevel=2)
+            logger.error(f"Reason: {exc_val}", stacklevel=2)
             logger.error(err_banner)
         else:
-            logger.info(f"*** STEP SUCCESSFUL: {self.title} ***")
+            logger.info(f"*** STEP SUCCESSFUL: {self.title} ***", stacklevel=2)
         self._allure_step.__exit__(exc_type, exc_val, exc_tb)
 
     def __call__(self, func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
-            logger.info("Action: %s", self.title)
+            sig = inspect.signature(func)
+            bound_args = sig.bind(*args, **kwargs)
+            bound_args.apply_defaults()
+
             try:
-                with self._allure_step:
+                dynamic_title = self.title.format(**bound_args.arguments)
+            except KeyError:
+                dynamic_title = self.title
+
+            logger.info("Action: %s", dynamic_title, stacklevel=2)
+
+            try:
+                with allure.step(dynamic_title):
                     return func(*args, **kwargs)
             except Exception as e:
-                logger.error("Action failed: %s (Error: %s)", self.title, e)
+                logger.error("Action failed: %s (Error: %s)", dynamic_title, e)
                 raise
+
         return wrapper

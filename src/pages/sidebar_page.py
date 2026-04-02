@@ -2,15 +2,17 @@ from selenium.webdriver.common.by import By
 from src.pages.base_ui import BaseUI
 from selenium.webdriver.support import expected_conditions as EC
 
+from src.utils.logger import Step
+
 
 class SidebarPageLocators:
     """
     Locators for the Sidebar elements.
     """
-    MENU_BUTTON = (By.ID, "react-burger-menu-btn")
-    LOGOUT_LINK = (By.ID, "logout_sidebar_link")
-    CLOSE_BUTTON = (By.ID, "react-burger-cross-btn")
-    MENU_WRAP = (By.CLASS_NAME, "bm-menu-wrap")
+    MENU_BUTTON = (By.CSS_SELECTOR, "#react-burger-menu-btn")
+    LOGOUT_LINK = (By.CSS_SELECTOR, "#logout_sidebar_link")
+    CLOSE_BUTTON = (By.CSS_SELECTOR, "#react-burger-cross-btn")
+    MENU_WRAP = (By.CSS_SELECTOR, ".bm-menu-wrap")
 
 
 class SidebarPage(BaseUI):
@@ -36,6 +38,7 @@ class SidebarPage(BaseUI):
         )
         return self
 
+    @Step("Click to logout")
     def click_logout(self) -> None:
         """
         Click the logout link within the sidebar.

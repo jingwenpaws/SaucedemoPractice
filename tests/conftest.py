@@ -1,4 +1,5 @@
 import logging
+import os
 from datetime import datetime
 from typing import Generator, Dict, Any
 
@@ -17,6 +18,8 @@ from src.utils.browser_factory import _build_chrome_options, _build_firefox_opti
 from src.utils.config import Config
 
 logger = logging.getLogger(__name__)
+os.environ['WDM_LOG'] = '0'
+logging.getLogger('WDM').setLevel(logging.WARNING)
 
 # Dictionary to track logging handlers per test node ID
 test_handlers: Dict[str, logging.FileHandler] = {}

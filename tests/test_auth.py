@@ -60,10 +60,9 @@ class TestLogin:
     @pytest.mark.parametrize(
         "user_transform, pwd_transform, label",
         [
-            (lambda s: s.swapcase(), lambda s: s, "Swapped Username Case"),
-            (lambda s: s, lambda s: s.swapcase(), "Swapped Password Case")
-        ],
-        ids=["swap_user", "swap_password"]
+            pytest.param(lambda s: s.swapcase(), lambda s: s, "Swapped Username Case", id="swap_user"),
+            pytest.param(lambda s: s, lambda s: s.swapcase(), "Swapped Password Case", id="swap_password")
+        ]
     )
     def test_login_case_sensitivity(
             self, cfg: Config, driver: WebDriver, login_page: LoginPage,
@@ -113,11 +112,34 @@ class TestLogin:
             inventory_page = login_page.login_success("standard_user", "secret_sauce")
 
         with Step("Open a new tab and navigate to the inventory page directly"):
-            driver.switch_to.new_window('tab')
+            driver.execute_script("window.open('about:blank', '_blank');")
+            driver.switch_to.window(driver.window_handles[-1])
             inventory_page.load()
 
         with Step("Verify the new tab is also logged in"):
             assert inventory_page.is_at(), "Session did not persist in the new tab."
+
+    @allure.story("Security")
+    @allure.title("Verify redirection to login page after session expiration")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_session_expired_redirection(self, driver: WebDriver, inventory_page: InventoryPage) -> None:
+        """
+        Simulate a session timeout by clearing browser cookies and verify the system
+        denies access to protected pages.
+        """
+        with Step("Simulate session timeout by deleting all cookies"):
+            driver.delete_all_cookies()
+            driver.execute_script("window.localStorage.clear();")
+
+        with Step("Attempt to interact with the page after 'timeout'"):
+            driver.refresh()
+            login_page = LoginPage(driver)
+
+        with Step("Verify redirection to login page with appropriate error message"):
+            assert login_page.is_at(), "User was not redirected back to the login page."
+            error_msg = login_page.get_error_message()
+            assert "You can only access" in error_msg, \
+                f"Expected session expiry error message, but got: '{error_msg}'"
 
 
 @allure.feature("Authentication")
@@ -186,7 +208,8 @@ class TestLogout:
         """
         with Step("Open a duplicate tab with the active session"):
             original_window = driver.current_window_handle
-            driver.switch_to.new_window('tab')
+            driver.execute_script("window.open('about:blank', '_blank');")
+            driver.switch_to.window(driver.window_handles[-1])
             inventory_page.load()
 
         with Step("Perform logout in the secondary tab"):

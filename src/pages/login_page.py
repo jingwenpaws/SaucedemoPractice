@@ -1,16 +1,19 @@
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 
+from src.constants.constants import PageUrls
 from src.pages.inventory_page import InventoryPage
 from src.pages.base_page import BasePage
+from src.utils.logger import Step
 
 
 class LoginPageLocators:
     """
     Locators for the Login Page elements.
     """
-    USERNAME_FIELD = (By.ID, "user-name")
-    PASSWORD_FIELD = (By.ID, "password")
-    LOGIN_BUTTON = (By.ID, "login-button")
+    USERNAME_FIELD = (By.CSS_SELECTOR, "#user-name")
+    PASSWORD_FIELD = (By.CSS_SELECTOR, "#password")
+    LOGIN_BUTTON = (By.CSS_SELECTOR, "#login-button")
     ERROR_MESSAGE = (By.CSS_SELECTOR, "h3[data-test='error']")
 
 
@@ -18,7 +21,7 @@ class LoginPage(BasePage):
     """
     Page Object for the Login Page, providing methods to authenticate users.
     """
-    URL_PATH = "/"
+    URL_PATH = PageUrls.LOGIN
 
     def is_at(self) -> bool:
         """
@@ -27,11 +30,16 @@ class LoginPage(BasePage):
         Returns:
             bool: True if both the URL matches and the username field is visible.
         """
-        is_url_correct = self.URL_PATH in self.driver.current_url
-        is_element_visible = self.is_element_visible(LoginPageLocators.USERNAME_FIELD)
+        if not super().is_at():
+            return False
 
-        return is_url_correct and is_element_visible
+        try:
+            self.find_element(LoginPageLocators.USERNAME_FIELD)
+            return True
+        except TimeoutException:
+            return False
 
+    @Step("Attempt to login as '{username}'")
     def login(self, username: str, password: str, is_sensitive: bool = False) -> None:
         """
         Perform the base login UI actions (input credentials and click login)
@@ -47,6 +55,7 @@ class LoginPage(BasePage):
         self.send_keys(LoginPageLocators.PASSWORD_FIELD, password, is_sensitive=is_sensitive)
         self.click(LoginPageLocators.LOGIN_BUTTON)
 
+    @Step("Login as '{username}' and expect it to be successful")
     def login_success(self, username: str, password: str, is_sensitive: bool = True) -> InventoryPage:
         """
         Perform a login action with valid credentials and transition to the Inventory Page.
