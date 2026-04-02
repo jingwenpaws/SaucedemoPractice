@@ -7,13 +7,15 @@ from src.pages.sidebar_page import SidebarPage
 from src.utils.logger import Step
 
 
-
 class CartPageLocators:
     """
     Locators for the Cart Page elements.
     """
     CHECKOUT_BUTTON = (By.CSS_SELECTOR, "#checkout")
-    INVENTORY_ITEM_NAME = (By.CSS_SELECTOR, ".inventory_item_name")
+
+    @staticmethod
+    def item_name_specific(item_name: str) -> str:
+        return (By.XPATH, f"//div[@data-test='inventory-item-name' and text()='{item_name}']")
 
 
 class CartPage(BasePage):
@@ -36,10 +38,8 @@ class CartPage(BasePage):
         Returns:
             bool: True if the item is found, False otherwise.
         """
-        elements = self.find_elements(CartPageLocators.INVENTORY_ITEM_NAME)
-        item_names = [element.text for element in elements]
-        self.logger.warning(item_names)
-        return item_name in item_names
+        locator = CartPageLocators.item_name_specific(item_name)
+        return self.is_element_visible(locator, timeout=2)
 
     @Step("Click the checkout button to proceed to the next step")
     def click_checkout(self) -> None:
