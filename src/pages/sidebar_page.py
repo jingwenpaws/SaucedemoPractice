@@ -47,7 +47,7 @@ class SidebarPage(BaseUI):
             Uses a forced JavaScript click to bypass intermittent click interception
             issues caused by the sidebar's 3D transform animation in Headless Chrome.
         """
-        self.click(SidebarPageLocators.LOGOUT_LINK, force=True)
+        self.click(SidebarPageLocators.LOGOUT_LINK)
 
     def close_menu(self) -> "SidebarPage":
         """
