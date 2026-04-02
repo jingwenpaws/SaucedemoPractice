@@ -1,0 +1,11 @@
+INFO     tests.conftest:conftest.py:105 Initializing the browser session...
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:97 STEP: Attempt to navigate directly to the inventory page
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.pages.base_ui:base_page.py:49 Navigating to: https://www.saucedemo.com/inventory.html
+INFO     src.utils.logger:test_auth.py:97 *** STEP SUCCESSFUL: Attempt to navigate directly to the inventory page ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:100 STEP: Verify access is denied and user is redirected or blocked
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:100 *** STEP SUCCESSFUL: Verify access is denied and user is redirected or blocked ***
+INFO     tests.conftest:conftest.py:127 Terminating the browser session...
