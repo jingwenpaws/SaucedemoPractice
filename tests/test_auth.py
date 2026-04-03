@@ -3,6 +3,8 @@ import allure
 from typing import Dict, Any, Callable
 
 from selenium.webdriver.remote.webdriver import WebDriver
+
+from src.constants.constants import ErrorMessages
 from src.utils.data_helper import load_json
 from src.pages.inventory_page import InventoryPage
 from src.pages.login_page import LoginPage
@@ -49,6 +51,7 @@ class TestLogin:
 
         with Step("Verify the correct error message is displayed"):
             actual_error = login_page.get_error_message()
+            assert login_page.is_at(), "Security Risk: Should remain on the Login page."
             assert actual_error == case["expected_error"], \
                 f"Validation mismatch for scenario '{case['desc']}'. \n" \
                 f"Expected: '{case['expected_error']}' \n" \
@@ -80,10 +83,10 @@ class TestLogin:
             login_page.login(target_user, target_pwd, is_sensitive=True)
 
         with Step("Verify login failed due to incorrect casing"):
-            error_msg = login_page.get_error_message()
+            actual_error = login_page.get_error_message()
             assert login_page.is_at(), "Security Risk: Should remain on the Login page."
-            assert "do not match" in error_msg, \
-                f"Validation mismatch. Expected 'do not match' error, got: '{error_msg}'"
+            assert "do not match" in actual_error, \
+                f"Validation mismatch. Expected 'do not match' error, got: '{actual_error}'"
 
     @allure.story("Security")
     @allure.title("Prevent direct access to inventory without authentication")
@@ -97,8 +100,15 @@ class TestLogin:
         with Step("Attempt to navigate directly to the inventory page"):
             inventory_page.load()
 
-        with Step("Verify access is denied and user is redirected or blocked"):
-            assert not inventory_page.is_at(), "Security Breach: Inventory page loaded without login."
+        with Step("Verify access is denied and user is redirected"):
+            login_page = LoginPage(driver)
+            assert login_page.is_at(), "Security Check Failed: User not on Login page."
+
+        with Step("Verify relevant error message is displayed"):
+            actual_error = login_page.get_error_message()
+            expected_error = ErrorMessages.LOGIN_REQUIRED_INVENTORY
+            assert actual_error == expected_error, \
+                f"Expected error message containing '{expected_error}', but got '{actual_error}'"
 
     @allure.story("Session Management")
     @allure.title("Session persists across multiple tabs")
@@ -137,9 +147,10 @@ class TestLogin:
 
         with Step("Verify redirection to login page with appropriate error message"):
             assert login_page.is_at(), "User was not redirected back to the login page."
-            error_msg = login_page.get_error_message()
-            assert "You can only access" in error_msg, \
-                f"Expected session expiry error message, but got: '{error_msg}'"
+            actual_error = login_page.get_error_message()
+            expected_error = ErrorMessages.LOGIN_REQUIRED_INVENTORY
+            assert actual_error == expected_error, \
+                f"Expected error message containing '{expected_error}', but got '{actual_error}'"
 
 
 @allure.feature("Authentication")
@@ -196,8 +207,13 @@ class TestLogout:
             driver.back()
 
         with Step("Verify the session remains terminated"):
-            assert not inventory_page.is_at(), "Security Breach: User accessed inventory after logout."
             assert login_page.is_at(), "Security Check Failed: User not on Login page."
+
+        with Step("Verify relevant error message is displayed"):
+            actual_error = login_page.get_error_message()
+            expected_error = ErrorMessages.LOGIN_REQUIRED_INVENTORY
+            assert actual_error == expected_error, \
+                f"Expected error message containing '{expected_error}', but got '{actual_error}'"
 
     @allure.story("Security")
     @allure.title("Multi-tab session sync upon logout")
@@ -223,3 +239,9 @@ class TestLogout:
 
         with Step("Verify the primary tab is also logged out"):
             assert login_page.is_at(), "Security Breach: Primary tab remained logged in."
+
+        with Step("Verify relevant error message is displayed"):
+            actual_error = login_page.get_error_message()
+            expected_error = ErrorMessages.LOGIN_REQUIRED_INVENTORY
+            assert actual_error == expected_error, \
+                f"Expected error message containing '{expected_error}', but got '{actual_error}'"
