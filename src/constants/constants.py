@@ -31,6 +31,11 @@ class InventoryItemsSortingValues:
 class DefaultItemAttributes:
     IMAGE_DOG_SLUG = "sl-404"
 
+class ErrorMessages:
+    ACCESS_DENIED_TEMPLATE = "Epic sadface: You can only access '{path}' when you are logged in."
+
+    LOGIN_REQUIRED_INVENTORY = ACCESS_DENIED_TEMPLATE.format(path="/inventory.html")
+    LOGIN_REQUIRED_ITEM = ACCESS_DENIED_TEMPLATE.format(path="/inventory-item.html")
 
 # base url
 BASE_URLS = {
