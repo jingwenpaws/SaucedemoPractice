@@ -1,0 +1,21 @@
+INFO     tests.conftest:conftest.py:105 Initializing the browser session...
+INFO     src.pages.base_ui:base_page.py:49 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:87 Successfully verified location: LoginPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:111 STEP: Log in successfully in the first tab
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:112 Action: Login as 'standard_user' and expect it to be successful
+INFO     src.utils.logger:login_page.py:75 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing '********' into element: ('css selector', '#password')
+INFO     src.utils.logger:test_auth.py:111 *** STEP SUCCESSFUL: Log in successfully in the first tab ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:114 STEP: Open a new tab and navigate to the inventory page directly
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.pages.base_ui:base_page.py:49 Navigating to: https://www.saucedemo.com/inventory.html
+INFO     src.utils.logger:test_auth.py:114 *** STEP SUCCESSFUL: Open a new tab and navigate to the inventory page directly ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:119 STEP: Verify the new tab is also logged in
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:119 *** STEP SUCCESSFUL: Verify the new tab is also logged in ***
+INFO     tests.conftest:conftest.py:127 Terminating the browser session...
