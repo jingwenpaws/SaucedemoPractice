@@ -1,0 +1,13 @@
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: LoginPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:82 STEP: Attempt login with Swapped Password Case
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:83 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing '********' into element: ('css selector', '#password')
+INFO     src.utils.logger:test_auth.py:82 *** STEP SUCCESSFUL: Attempt login with Swapped Password Case ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:85 STEP: Verify login failed due to incorrect casing
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:85 *** STEP SUCCESSFUL: Verify login failed due to incorrect casing ***

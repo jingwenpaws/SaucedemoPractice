@@ -1,0 +1,29 @@
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: LoginPage
+INFO     src.utils.logger:conftest.py:76 Action: Login as 'standard_user' and expect it to be successful
+INFO     src.utils.logger:login_page.py:75 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing '********' into element: ('css selector', '#password')
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: InventoryPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:225 STEP: Open a duplicate tab with the active session
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/inventory.html
+INFO     src.utils.logger:test_auth.py:225 *** STEP SUCCESSFUL: Open a duplicate tab with the active session ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:231 STEP: Perform logout in the secondary tab
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:232 Action: Click to logout
+INFO     src.utils.logger:test_auth.py:231 *** STEP SUCCESSFUL: Perform logout in the secondary tab ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:236 STEP: Switch back to the primary tab and refresh
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:236 *** STEP SUCCESSFUL: Switch back to the primary tab and refresh ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:240 STEP: Verify the primary tab is also logged out
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:240 *** STEP SUCCESSFUL: Verify the primary tab is also logged out ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:243 STEP: Verify relevant error message is displayed
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:243 *** STEP SUCCESSFUL: Verify relevant error message is displayed ***
