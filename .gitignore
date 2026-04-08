@@ -21,7 +21,6 @@ coverage.xml
 
 allure-results/
 allure-report/
-logs/
 *.log
 screenshots/
 
