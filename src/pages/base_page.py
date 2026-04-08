@@ -1,7 +1,6 @@
 from abc import abstractmethod
 
 from src.pages.base_ui import BaseUI
-from src.utils.config import Config
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -12,7 +11,7 @@ class BasePage(BaseUI):
 
     Attributes:
         driver (WebDriver): The Selenium WebDriver instance.
-        config (Config): Configuration object containing environment settings.
+        config (MapObject): Configuration object containing environment settings.
         base_url (str): The root URL of the application.
         wait (WebDriverWait): Explicit wait instance for synchronization.
     """

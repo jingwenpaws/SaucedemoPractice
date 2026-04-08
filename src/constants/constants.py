@@ -1,8 +1,25 @@
+"""Global constants and enumerations for the automation framework.
+
+This module defines file paths, page URLs, sorting options, and default
+test data used across the testing suite.
+"""
+
+from enum import Enum
 from pathlib import Path
 
+# ---------------------------------------------------------------------------
+# Paths
+# ---------------------------------------------------------------------------
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+DATA_DIR = ROOT_DIR / "data"
+CONFIG_DIR = ROOT_DIR / "config"
 
-# page urls
-class PageUrls:
+
+# ---------------------------------------------------------------------------
+# Enumerations
+# ---------------------------------------------------------------------------
+class PageUrl(str, Enum):
+    """Enumeration of application page endpoints."""
     LOGIN = "/"
     INVENTORY = "/inventory.html"
     PRODUCT_DETAIL = "/inventory-item.html"
@@ -10,39 +27,41 @@ class PageUrls:
     CHECKOUT_INFO = "/checkout-step-one.html"
 
 
-# paths
-class Paths:
-    ROOT = Path(__file__).resolve().parent.parent.parent
-    DATA = ROOT / "data"
-    LOGS = ROOT / "logs"
-    CONFIG = ROOT / "config"
-
-class InventoryTestData:
-    MAIN_PRODUCT = "Sauce Labs Backpack"
-
-
-class InventoryItemsSortingValues:
+class SortOption(str, Enum):
+    """Enumeration of inventory sorting values."""
     LOW_TO_HIGH = "lohi"
     HIGH_TO_LOW = "hilo"
     A_TO_Z = "az"
     Z_TO_A = "za"
 
 
-class DefaultItemAttributes:
-    IMAGE_DOG_SLUG = "sl-404"
+# ---------------------------------------------------------------------------
+# Test Data & Attributes
+# ---------------------------------------------------------------------------
+MAIN_PRODUCT_NAME = "Sauce Labs Backpack"
+IMAGE_DOG_SLUG = "sl-404"
 
-class ErrorMessages:
-    ACCESS_DENIED_TEMPLATE = "Epic sadface: You can only access '{path}' when you are logged in."
 
-    LOGIN_REQUIRED_INVENTORY = ACCESS_DENIED_TEMPLATE.format(path="/inventory.html")
-    LOGIN_REQUIRED_ITEM = ACCESS_DENIED_TEMPLATE.format(path="/inventory-item.html")
+# ---------------------------------------------------------------------------
+# Error Messages
+# ---------------------------------------------------------------------------
+ACCESS_DENIED_TEMPLATE = (
+    "Epic sadface: You can only access '{path}' when you are logged in."
+)
 
-# base url
+LOGIN_REQUIRED_INVENTORY_MSG = ACCESS_DENIED_TEMPLATE.format(
+    path=PageUrl.INVENTORY.value
+)
+LOGIN_REQUIRED_ITEM_MSG = ACCESS_DENIED_TEMPLATE.format(
+    path=PageUrl.PRODUCT_DETAIL.value
+)
+
+
+# ---------------------------------------------------------------------------
+# Environments
+# ---------------------------------------------------------------------------
 BASE_URLS = {
     "prod": "https://www.saucedemo.com",
-    # The options below are to show the flexibilities to switch the env
-    # However, actually we don't have permission to access these environments of saucedemo.com
-    # That's why all environments are the same as production
     "qa": "https://www.saucedemo.com",
-    "staging": "https://www.saucedemo.com"
+    "staging": "https://www.saucedemo.com",
 }

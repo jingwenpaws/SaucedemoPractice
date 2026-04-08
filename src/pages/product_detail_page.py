@@ -2,7 +2,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from src.constants.constants import PageUrls
+from src.constants.constants import PageUrl
 from src.pages.base_page import BasePage
 from src.pages.header_component import HeaderComponent
 from src.pages.sidebar_page import SidebarPage
@@ -24,7 +24,7 @@ class ProductDetailPage(BasePage):
     This page contains the product list and is typically accessed after a
     successful login.
     """
-    URL_PATH = PageUrls.PRODUCT_DETAIL
+    URL_PATH = PageUrl.PRODUCT_DETAIL
     def __init__(self, driver: WebDriver, item_name: str) -> None:
         super().__init__(driver)
         self.item_name = item_name

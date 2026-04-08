@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from src.constants.constants import InventoryTestData, InventoryItemsSortingValues
+from src.constants.constants import MAIN_PRODUCT_NAME, SortOption
 from src.pages.inventory_page import InventoryPage
 from src.pages.product_detail_page import ProductDetailPage
 from src.utils.logger import Step
@@ -17,7 +17,7 @@ class TestInventoryInteractions:
     def test_add_item_updates_cart_badge(self, inventory_page: InventoryPage) -> None:
         """Verify that adding a single item correctly updates the header cart badge to 1."""
         with Step("Add a single item to the cart"):
-            inventory_page.add_item_to_cart(InventoryTestData.MAIN_PRODUCT)
+            inventory_page.add_item_to_cart(MAIN_PRODUCT_NAME)
 
         with Step("Verify the cart badge displays '1'"):
             assert inventory_page.header.get_cart_item_count() == 1, \
@@ -29,12 +29,12 @@ class TestInventoryInteractions:
     def test_remove_item_updates_badge(self, inventory_page: InventoryPage) -> None:
         """Verify that removing an item correctly decrements/removes the header cart badge."""
         with Step("Add an item to the cart"):
-            inventory_page.add_item_to_cart(InventoryTestData.MAIN_PRODUCT)
+            inventory_page.add_item_to_cart(MAIN_PRODUCT_NAME)
             assert inventory_page.header.get_cart_item_count() == 1, \
                 "Precondition failed: Cart badge is not 1."
 
         with Step("Remove the item from the cart"):
-            inventory_page.remove_item_from_cart(InventoryTestData.MAIN_PRODUCT)
+            inventory_page.remove_item_from_cart(MAIN_PRODUCT_NAME)
 
         with Step("Verify the cart badge disappears (count is 0)"):
             assert inventory_page.header.get_cart_item_count() == 0, \
@@ -45,11 +45,11 @@ class TestInventoryInteractions:
     @pytest.mark.parametrize(
         "sorting_value, is_reverse, label",
         [
-            pytest.param(InventoryItemsSortingValues.LOW_TO_HIGH, False, "Low to High", id="price_low_to_high"),
-            pytest.param(InventoryItemsSortingValues.HIGH_TO_LOW, True, "High to Low", id="price_high_to_low")
+            pytest.param(SortOption.LOW_TO_HIGH, False, "Low to High", id="price_low_to_high"),
+            pytest.param(SortOption.HIGH_TO_LOW, True, "High to Low", id="price_high_to_low")
         ]
     )
-    def test_sort_by_price(self, inventory_page: InventoryPage, sorting_value: str, is_reverse: bool,
+    def test_sort_by_price(self, inventory_page: InventoryPage, sorting_value: SortOption, is_reverse: bool,
                            label: str) -> None:
         """Verify that the inventory items can be correctly sorted by price."""
         allure.dynamic.title(f"Verify items can be sorted by price ({label})")
@@ -69,11 +69,11 @@ class TestInventoryInteractions:
     @pytest.mark.parametrize(
         "sorting_value, is_reverse, label",
         [
-            pytest.param(InventoryItemsSortingValues.A_TO_Z, False, "A to Z", id="name_a_to_z"),
-            pytest.param(InventoryItemsSortingValues.Z_TO_A, True, "Z to A", id="name_z_to_a")
+            pytest.param(SortOption.A_TO_Z, False, "A to Z", id="name_a_to_z"),
+            pytest.param(SortOption.Z_TO_A, True, "Z to A", id="name_z_to_a")
         ]
     )
-    def test_sort_by_name(self, inventory_page: InventoryPage, sorting_value: str, is_reverse: bool,
+    def test_sort_by_name(self, inventory_page: InventoryPage, sorting_value: SortOption, is_reverse: bool,
                           label: str) -> None:
         """Verify that the inventory items can be correctly sorted by name."""
         allure.dynamic.title(f"Verify items can be sorted by name ({label})")
@@ -97,7 +97,7 @@ class TestInventoryInteractions:
     def test_navigate_to_product_detail(self, driver, inventory_page: InventoryPage, click_logic, label) -> None:
         """Verify that clicking a product name or image opens its detail page."""
         allure.dynamic.title(f"Clicking an item {label} navigates to the Product Detail Page")
-        target_item = InventoryTestData.MAIN_PRODUCT
+        target_item = MAIN_PRODUCT_NAME
         with Step(f"Click on the product {label}: '{target_item}'"):
             click_logic(inventory_page, target_item)
 

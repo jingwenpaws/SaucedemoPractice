@@ -4,11 +4,11 @@ from typing import Dict, Any, Callable
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from src.constants.constants import ErrorMessages
+from src.constants.constants import LOGIN_REQUIRED_INVENTORY_MSG
 from src.utils.data_helper import load_json
 from src.pages.inventory_page import InventoryPage
 from src.pages.login_page import LoginPage
-from src.utils.config import Config
+from src.utils.config import MapObject
 from src.utils.logger import Step
 
 # Load test data globally for parametrization
@@ -24,13 +24,13 @@ class TestLogin:
     @allure.story("Happy Path")
     @allure.title("Standard user logs in successfully")
     @allure.severity(allure.severity_level.BLOCKER)
-    def test_standard_user_login(self, cfg: Config, driver: WebDriver, login_page: LoginPage) -> None:
+    def test_standard_user_login(self, cfg: MapObject, driver: WebDriver, login_page: LoginPage) -> None:
         """
         Verify that a standard user can log in with valid credentials
         and is redirected to the Inventory Page.
         """
-        with Step(f"Attempt login for user: {cfg.STANDARD_USERNAME}"):
-            login_page.login(cfg.STANDARD_USERNAME, cfg.STANDARD_PASSWORD, is_sensitive=True)
+        with Step(f"Attempt login for user: {cfg.credentials.username}"):
+            login_page.login(cfg.credentials.username, cfg.credentials.password, is_sensitive=True)
 
         with Step("Verify redirection to the Inventory page"):
             inventory = InventoryPage(driver=driver)
@@ -68,7 +68,7 @@ class TestLogin:
         ]
     )
     def test_login_case_sensitivity(
-            self, cfg: Config, driver: WebDriver, login_page: LoginPage,
+            self, cfg: MapObject, driver: WebDriver, login_page: LoginPage,
             user_transform: Callable[[str], str], pwd_transform: Callable[[str], str], label: str
     ) -> None:
         """
@@ -76,8 +76,8 @@ class TestLogin:
         """
         allure.dynamic.title(f"Case Sensitivity Test: {label}")
 
-        target_user = user_transform(cfg.STANDARD_USERNAME)
-        target_pwd = pwd_transform(cfg.STANDARD_PASSWORD)
+        target_user = user_transform(cfg.credentials.username)
+        target_pwd = pwd_transform(cfg.credentials.password)
 
         with Step(f"Attempt login with {label}"):
             login_page.login(target_user, target_pwd, is_sensitive=True)
@@ -106,7 +106,7 @@ class TestLogin:
 
         with Step("Verify relevant error message is displayed"):
             actual_error = login_page.get_error_message()
-            expected_error = ErrorMessages.LOGIN_REQUIRED_INVENTORY
+            expected_error = LOGIN_REQUIRED_INVENTORY_MSG
             assert actual_error == expected_error, \
                 f"Expected error message containing '{expected_error}', but got '{actual_error}'"
 
@@ -148,7 +148,7 @@ class TestLogin:
         with Step("Verify redirection to login page with appropriate error message"):
             assert login_page.is_at(), "User was not redirected back to the login page."
             actual_error = login_page.get_error_message()
-            expected_error = ErrorMessages.LOGIN_REQUIRED_INVENTORY
+            expected_error = LOGIN_REQUIRED_INVENTORY_MSG
             assert actual_error == expected_error, \
                 f"Expected error message containing '{expected_error}', but got '{actual_error}'"
 
@@ -211,7 +211,7 @@ class TestLogout:
 
         with Step("Verify relevant error message is displayed"):
             actual_error = login_page.get_error_message()
-            expected_error = ErrorMessages.LOGIN_REQUIRED_INVENTORY
+            expected_error = LOGIN_REQUIRED_INVENTORY_MSG
             assert actual_error == expected_error, \
                 f"Expected error message containing '{expected_error}', but got '{actual_error}'"
 
@@ -242,6 +242,6 @@ class TestLogout:
 
         with Step("Verify relevant error message is displayed"):
             actual_error = login_page.get_error_message()
-            expected_error = ErrorMessages.LOGIN_REQUIRED_INVENTORY
+            expected_error = LOGIN_REQUIRED_INVENTORY_MSG
             assert actual_error == expected_error, \
                 f"Expected error message containing '{expected_error}', but got '{actual_error}'"

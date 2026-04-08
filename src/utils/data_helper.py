@@ -3,7 +3,7 @@ import logging
 import os
 from typing import Any, Dict, Union, List
 
-from src.constants.constants import Paths
+from src.constants.constants import DATA_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ def load_json(file_name: str) -> Union[Dict[str, Any], List[Any]]:
         json.JSONDecodeError: If the file exists but contains invalid JSON syntax.
         RuntimeError: If any other unexpected I/O error occurs during file reading.
     """
-    file_path = os.path.join(Paths.DATA, file_name)
+    file_path = os.path.join(DATA_DIR, file_name)
 
     if not os.path.exists(file_path):
         logger.error(f"Critical: Target JSON file '{file_path}' does not exist.")

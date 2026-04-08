@@ -10,7 +10,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from src.pages.login_page import LoginPage
 from src.pages.inventory_page import InventoryPage
-from src.utils.config import Config
+from src.utils.config import global_config, MapObject
 from src.utils.browser_factory import _build_chrome_options
 
 logger = logging.getLogger(__name__)
@@ -18,24 +18,16 @@ os.environ['WDM_LOG'] = '0'
 logging.getLogger('WDM').setLevel(logging.WARNING)
 
 
-def pytest_addoption(parser: pytest.Parser) -> None:
-    """
-    Add custom command-line options to pytest.
-    """
-    parser.addoption("--env", action="store", default="config", help="Environment config file name")
-
-
 @pytest.fixture(scope="session")
-def cfg(request: pytest.FixtureRequest) -> Any:
+def cfg() -> MapObject:
     """
-    Initialize and provide the global configuration object based on the given environment.
+    Provide the globally initialized configuration object.
     """
-    env_name = request.config.getoption("--env")
-    return Config.get(config_name=env_name)
+    return global_config
 
 
 @pytest.fixture(scope="function")
-def driver(cfg: Any) -> Generator[webdriver.Remote, None, None]:
+def driver(cfg: MapObject) -> Generator[webdriver.Remote, None, None]:
     """Initialize the Selenium WebDriver instance based on the configuration.
 
     Args:
@@ -82,7 +74,7 @@ def inventory_page(driver: webdriver.Remote, cfg: Any) -> Generator[InventoryPag
         InventoryPage: The initialized, verified and login successfully InventoryPage object.
     """
     inventory_page = (LoginPage(driver).load().verify().login_success
-                      (username=cfg.STANDARD_USERNAME, password=cfg.STANDARD_PASSWORD))
+                      (username=cfg.credentials.username, password=cfg.credentials.password))
     inventory_page.verify()
 
     yield inventory_page

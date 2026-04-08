@@ -2,7 +2,7 @@ import logging
 from abc import ABC
 from typing import Tuple, Optional, List
 
-from src.utils.config import Config
+from src.utils.config import global_config
 from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -22,7 +22,7 @@ class BaseUI(ABC):
         """
         self.driver = driver
         self.logger = logging.getLogger(__name__)
-        self.config = Config.get()
+        self.config = global_config
         self.wait = WebDriverWait(self.driver, self.config.driver.timeout)
 
     def click(self, locator: Locator, force: bool = False) -> None:
