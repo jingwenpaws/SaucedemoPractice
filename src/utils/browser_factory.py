@@ -26,10 +26,3 @@ def _build_chrome_options(cfg: Any) -> webdriver.ChromeOptions:
     options.add_experimental_option("useAutomationExtension", False)
 
     return options
-
-def _build_firefox_options(cfg: Any) -> webdriver.FirefoxOptions:
-    """Builds and returns the FirefoxOptions based on the configuration."""
-    options = webdriver.FirefoxOptions()
-    if cfg.driver.headless:
-        options.add_argument("-headless")
-    return options
