@@ -47,15 +47,7 @@ jobs:
         HEADLESS: ${{ secrets.HEADLESS }}
         TEST_ENV: ${{ inputs.test_env || 'qa' }}
       run: |
-        pytest --alluredir=./reports/allure-results --clean-alluredir
-
-    - name: Upload Test Artifacts (Logs & Screenshots)
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-session-results
-        path: logs/
-        retention-days: 7
+        pytest --alluredir=./allure-results --clean-alluredir
 
     - name: Get Allure history
       uses: actions/checkout@v3
@@ -69,7 +61,7 @@ jobs:
       uses: simple-elf/allure-report-action@master
       if: always()
       with:
-        allure_results: ./reports/allure-results
+        allure_results: ./allure-results
         allure_history: allure-history
 
     - name: Deploy Allure Report to GitHub Pages
