@@ -3,7 +3,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from src.constants.constants import PageUrls, DefaultItemAttributes
+from src.constants.constants import PageUrl, IMAGE_DOG_SLUG, SortOption
 from src.pages.base_page import BasePage
 from src.pages.header_component import HeaderComponent
 from src.pages.sidebar_page import SidebarPage
@@ -47,7 +47,7 @@ class InventoryPage(BasePage):
     This page contains the product list and is typically accessed after a
     successful login.
     """
-    URL_PATH = PageUrls.INVENTORY
+    URL_PATH = PageUrl.INVENTORY
     TITLE = (By.CLASS_NAME, "title")
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -88,15 +88,15 @@ class InventoryPage(BasePage):
         self.click(locator)
         return self
 
-    @Step("Select {sort_value} to sort the inventory items")
-    def select_sort_option_by_value(self, sort_value: str) -> None:
+    @Step("Select {sort_option} to sort the inventory items")
+    def select_sort_option_by_value(self, sort_option: SortOption) -> None:
         """
         Sort the inventory items using the dropdown menu.
         Valid values: 'az' (A-Z), 'za' (Z-A), 'lohi' (Low to High), 'hilo' (High to Low).
         """
         locator = InventoryPageLocators.SORT_DROPDOWN
 
-        self.select_dropdown_by_value(locator, sort_value)
+        self.select_dropdown_by_value(locator, sort_option.value)
         return self
 
     def get_all_item_prices(self) -> list[float]:
@@ -131,7 +131,7 @@ class InventoryPage(BasePage):
             image_name = img.get_attribute("alt") or "Unknown Image"
             src = img.get_attribute("src")
 
-            if src and DefaultItemAttributes.IMAGE_DOG_SLUG in src.lower():
+            if src and IMAGE_DOG_SLUG in src.lower():
                 broken_images.append(f"{image_name} (Error: Replaced by the placeholder!)")
                 continue
 
