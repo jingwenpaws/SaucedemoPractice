@@ -11,7 +11,7 @@ Through this project, I practiced several core concepts in test automation:
 * Page Object Model (POM): Separating UI locators and page interactions from the actual test logic to make the code easier to maintain.
 * Data-Driven Testing (DDT): Using Pytest's `parametrize` feature to feed test data from external JSON files, separating data from the scripts.
 * Configuration Management: Using YAML for environment settings and `python-dotenv` to keep sensitive credentials out of version control.
-* Pytest Hooks: Customizing `conftest.py` to dynamically create log directories for each session and automatically capture screenshots upon test failures.
+* Pytest Hooks: Customizing conftest.py to automatically capture screenshots and browser logs upon test failures, seamlessly integrating them as Allure attachments.
 * Test Reporting: Integrating Allure to generate clear, step-by-step visual test reports.
 
 ## Project Structure
@@ -66,13 +66,14 @@ pytest
 ```
 To run the tests and generate data for the Allure report:
 ```Bash
-pytest --alluredir=./reports/allure-results
+pytest --alluredir=./allure-results
 ```
 Once the test execution is complete, generate and open the Allure HTML report in your browser:
 ```Bash
-allure serve ./reports/allure-results
+allure serve ./allure-results
 ```
 prevent stale test data or removed test cases from inflating the current test report, it is highly recommended to clean the results directory before execution. Append the `--clean-alluredir` flag to your pytest command:
 
 ```bash
-pytest --alluredir=./reports/allure-results --clean-alluredir
+pytest --alluredir=./allure-results --clean-alluredir
+```
