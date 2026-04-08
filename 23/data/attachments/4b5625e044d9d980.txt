@@ -1,0 +1,15 @@
+INFO     src.utils.config:config.py:88 Initializing configuration for the first time. Loading: config.yaml
+INFO     src.utils.config:config.py:96 Overriding YAML environment with OS TEST_ENV: 'qa'
+INFO     src.pages.base_ui:base_page.py:49 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:87 Successfully verified location: LoginPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:32 STEP: Attempt login for user: standard_user
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:33 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing '********' into element: ('css selector', '#password')
+INFO     src.utils.logger:test_auth.py:32 *** STEP SUCCESSFUL: Attempt login for user: standard_user ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:35 STEP: Verify redirection to the Inventory page
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:35 *** STEP SUCCESSFUL: Verify redirection to the Inventory page ***
