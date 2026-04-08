@@ -1,0 +1,27 @@
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: LoginPage
+INFO     src.utils.logger:conftest.py:76 Action: Login as 'standard_user' and expect it to be successful
+INFO     src.utils.logger:login_page.py:75 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing '********' into element: ('css selector', '#password')
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: InventoryPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:114 STEP: Fetch all available product names from the current page
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:114 *** STEP SUCCESSFUL: Fetch all available product names from the current page ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:117 STEP: Iterate through each product and verify navigation
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:121 Action: Click on item name 'Sauce Labs Backpack' to view details
+INFO     src.utils.logger:test_inventory.py:126 Action: Back to the products page
+INFO     src.utils.logger:test_inventory.py:121 Action: Click on item name 'Sauce Labs Bike Light' to view details
+INFO     src.utils.logger:test_inventory.py:126 Action: Back to the products page
+INFO     src.utils.logger:test_inventory.py:121 Action: Click on item name 'Sauce Labs Bolt T-Shirt' to view details
+INFO     src.utils.logger:test_inventory.py:126 Action: Back to the products page
+INFO     src.utils.logger:test_inventory.py:121 Action: Click on item name 'Sauce Labs Fleece Jacket' to view details
+INFO     src.utils.logger:test_inventory.py:126 Action: Back to the products page
+INFO     src.utils.logger:test_inventory.py:121 Action: Click on item name 'Sauce Labs Onesie' to view details
+INFO     src.utils.logger:test_inventory.py:126 Action: Back to the products page
+INFO     src.utils.logger:test_inventory.py:121 Action: Click on item name 'Test.allTheThings() T-Shirt (Red)' to view details
+INFO     src.utils.logger:test_inventory.py:126 Action: Back to the products page
+INFO     src.utils.logger:test_inventory.py:117 *** STEP SUCCESSFUL: Iterate through each product and verify navigation ***

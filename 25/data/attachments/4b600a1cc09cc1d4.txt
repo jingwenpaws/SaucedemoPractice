@@ -1,0 +1,16 @@
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: LoginPage
+INFO     src.utils.logger:conftest.py:76 Action: Login as 'standard_user' and expect it to be successful
+INFO     src.utils.logger:login_page.py:75 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing '********' into element: ('css selector', '#password')
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: InventoryPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:167 STEP: Execute logout flow via sidebar
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:168 Action: Click to logout
+INFO     src.utils.logger:test_auth.py:167 *** STEP SUCCESSFUL: Execute logout flow via sidebar ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:171 STEP: Verify redirection to the Login page
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:171 *** STEP SUCCESSFUL: Verify redirection to the Login page ***
