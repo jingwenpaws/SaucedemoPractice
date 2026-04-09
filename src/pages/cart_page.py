@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 
-from src.constants.constants import PageUrls
 from src.pages.base_page import BasePage
 from src.pages.header_component import HeaderComponent
 from src.pages.sidebar_page import SidebarPage
@@ -21,7 +20,7 @@ class CartPageLocators:
 class CartPage(BasePage):
     """Page Object for the Shopping Cart page."""
 
-    URL_PATH = PageUrls.CART
+    URL_PATH = "/cart.html"
     def __init__(self, driver):
         super().__init__(driver)
         self.header = HeaderComponent(driver)

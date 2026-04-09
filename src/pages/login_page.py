@@ -2,7 +2,6 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from typing import TYPE_CHECKING
 
-from src.constants.constants import PageUrl
 from src.pages.base_page import BasePage
 from src.utils.logger import Step
 
@@ -24,7 +23,7 @@ class LoginPage(BasePage):
     """
     Page Object for the Login Page, providing methods to authenticate users.
     """
-    URL_PATH = PageUrl.LOGIN
+    URL_PATH = "/"
 
     def is_at(self) -> bool:
         """
