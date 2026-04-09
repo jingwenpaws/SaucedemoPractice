@@ -23,7 +23,6 @@ This is the core structure of the repository. Note that local environment files 
 │   └── config.yaml          # Environment and browser configuration
 ├── data/      # Test data for data-driven testing
 ├── src/
-│   ├── constants/           # Global constants
 │   ├── pages/               # Page Object classes
 │   └── utils/               # Helper utilities (e.g., data loaders, config parsers)
 ├── tests/                   # Pytest test cases and fixtures        
