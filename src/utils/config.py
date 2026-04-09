@@ -1,12 +1,18 @@
 import logging
 import os
+from pathlib import Path
+
 import yaml
 from typing import Dict, Any
-from src.constants.constants import BASE_URLS, CONFIG_DIR
 from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
 load_dotenv()
+
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+CONFIG_DIR = ROOT_DIR / "config"
+DATA_DIR = ROOT_DIR / "data"
+AUTH_DIR = ROOT_DIR / "auth"
 
 
 class MapObject:
@@ -25,14 +31,6 @@ class MapObject:
                 setattr(self, key, value)
 
 
-def _get_base_url(env: str) -> str:
-    if env in BASE_URLS:
-        return BASE_URLS[env]
-    if env.startswith(("http://", "https://")):
-        return env
-    raise ValueError(f"Invalid environment or URL: '{env}'.")
-
-
 def load_config(config_name: str = "config") -> MapObject:
     """ Initialize and return the configuration object without handling Singleton logic.
 
@@ -48,9 +46,12 @@ def load_config(config_name: str = "config") -> MapObject:
         data = yaml.safe_load(f)
 
     config_obj = MapObject(data)
-
     config_obj.env = os.getenv("TEST_ENV", config_obj.env)
-    config_obj.BASE_URL = _get_base_url(config_obj.env)
+
+    try:
+        config_obj.BASE_URL = getattr(config_obj.environments, config_obj.env)
+    except AttributeError:
+        raise ValueError(f"Environment '{config_obj.env}' is not defined in config.yaml")
 
     config_obj.credentials = MapObject({
         "username": os.getenv("STANDARD_USERNAME"),

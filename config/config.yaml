@@ -5,3 +5,8 @@ driver:
   window_size:
     width: 1920
     height: 1080
+
+environments:
+  prod: "https://www.saucedemo.com"
+  qa: "https://www.saucedemo.com"
+  staging: "https://www.saucedemo.com"
