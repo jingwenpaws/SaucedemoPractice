@@ -1,0 +1,13 @@
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:108 STEP: Attempt to navigate directly to the inventory page
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/inventory.html
+INFO     src.utils.logger:test_auth.py:108 *** STEP SUCCESSFUL: Attempt to navigate directly to the inventory page ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:111 STEP: Verify access is denied and user is redirected
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:111 *** STEP SUCCESSFUL: Verify access is denied and user is redirected ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:115 STEP: Verify relevant error message is displayed
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:115 *** STEP SUCCESSFUL: Verify relevant error message is displayed ***

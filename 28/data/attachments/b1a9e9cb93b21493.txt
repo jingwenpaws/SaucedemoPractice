@@ -1,0 +1,23 @@
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: LoginPage
+INFO     src.utils.logger:conftest.py:76 Action: Login as 'standard_user' and expect it to be successful
+INFO     src.utils.logger:login_page.py:74 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing '********' into element: ('css selector', '#password')
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: InventoryPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:33 STEP: Add an item to the cart
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:34 Action: Add item 'Sauce Labs Backpack' to the shopping cart
+INFO     src.utils.logger:test_inventory.py:35 Action: Retrieve the current item count from the shopping cart badge
+INFO     src.utils.logger:test_inventory.py:33 *** STEP SUCCESSFUL: Add an item to the cart ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:38 STEP: Remove the item from the cart
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:39 Action: Remove item 'Sauce Labs Backpack' from the shopping cart
+INFO     src.utils.logger:test_inventory.py:38 *** STEP SUCCESSFUL: Remove the item from the cart ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:41 STEP: Verify the cart badge disappears (count is 0)
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_inventory.py:42 Action: Retrieve the current item count from the shopping cart badge
+INFO     src.utils.logger:test_inventory.py:41 *** STEP SUCCESSFUL: Verify the cart badge disappears (count is 0) ***
