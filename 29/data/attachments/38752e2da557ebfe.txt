@@ -1,0 +1,13 @@
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: LoginPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:57 STEP: Attempt login with username: 'locked_out_user'
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:58 Action: Attempt to login as 'locked_out_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'locked_out_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'secret_sauce' into element: ('css selector', '#password')
+INFO     src.utils.logger:test_auth.py:57 *** STEP SUCCESSFUL: Attempt login with username: 'locked_out_user' ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:60 STEP: Verify the correct error message is displayed
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:60 *** STEP SUCCESSFUL: Verify the correct error message is displayed ***

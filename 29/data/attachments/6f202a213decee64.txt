@@ -1,0 +1,19 @@
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/
+INFO     src.pages.base_ui:base_page.py:86 Successfully verified location: LoginPage
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:129 STEP: Log in successfully in the first tab
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:130 Action: Login as 'standard_user' and expect it to be successful
+INFO     src.utils.logger:login_page.py:74 Action: Attempt to login as 'standard_user'
+INFO     src.pages.base_ui:base_ui.py:136 Typing 'standard_user' into element: ('css selector', '#user-name')
+INFO     src.pages.base_ui:base_ui.py:136 Typing '********' into element: ('css selector', '#password')
+INFO     src.utils.logger:test_auth.py:129 *** STEP SUCCESSFUL: Log in successfully in the first tab ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:132 STEP: Open a new tab and navigate to the inventory page directly
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.pages.base_ui:base_page.py:48 Navigating to: https://www.saucedemo.com/inventory.html
+INFO     src.utils.logger:test_auth.py:132 *** STEP SUCCESSFUL: Open a new tab and navigate to the inventory page directly ***
+INFO     src.utils.logger:logger.py:25 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:137 STEP: Verify the new tab is also logged in
+INFO     src.utils.logger:logger.py:27 ══════════════════════════════════════════════════════════════════════
+INFO     src.utils.logger:test_auth.py:137 *** STEP SUCCESSFUL: Verify the new tab is also logged in ***
