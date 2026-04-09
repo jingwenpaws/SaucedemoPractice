@@ -1,13 +1,21 @@
-import time
+from enum import Enum
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from src.constants.constants import PageUrl, IMAGE_DOG_SLUG, SortOption
 from src.pages.base_page import BasePage
 from src.pages.header_component import HeaderComponent
 from src.pages.sidebar_page import SidebarPage
 from src.utils.logger import Step
+
+class SortOption(str, Enum):
+    """Enumeration of inventory sorting values."""
+    LOW_TO_HIGH = "lohi"
+    HIGH_TO_LOW = "hilo"
+    A_TO_Z = "az"
+    Z_TO_A = "za"
+
+IMAGE_DOG_SLUG = "sl-404"
 
 
 class InventoryPageLocators:
@@ -47,7 +55,7 @@ class InventoryPage(BasePage):
     This page contains the product list and is typically accessed after a
     successful login.
     """
-    URL_PATH = PageUrl.INVENTORY
+    URL_PATH = "/inventory.html"
     TITLE = (By.CLASS_NAME, "title")
     def __init__(self, driver: WebDriver):
         super().__init__(driver)

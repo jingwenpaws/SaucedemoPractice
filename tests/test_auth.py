@@ -1,15 +1,23 @@
+"""Tests for authentication and security."""
 import pytest
 import allure
+from selenium.webdriver.remote.webdriver import WebDriver
 from typing import Dict, Any, Callable
 
-from selenium.webdriver.remote.webdriver import WebDriver
-
-from src.constants.constants import LOGIN_REQUIRED_INVENTORY_MSG
-from src.utils.data_helper import load_json
 from src.pages.inventory_page import InventoryPage
+from src.pages.product_detail_page import ProductDetailPage
 from src.pages.login_page import LoginPage
+from src.utils.data_helper import load_json
 from src.utils.config import MapObject
 from src.utils.logger import Step
+
+ACCESS_DENIED_TEMPLATE = "Epic sadface: You can only access '{path}' when you are logged in."
+LOGIN_REQUIRED_INVENTORY_MSG = ACCESS_DENIED_TEMPLATE.format(
+    path=InventoryPage.URL_PATH
+)
+LOGIN_REQUIRED_ITEM_MSG = ACCESS_DENIED_TEMPLATE.format(
+    path=ProductDetailPage.URL_PATH
+)
 
 # Load test data globally for parametrization
 _LOGIN_DATA = load_json("login_data.json")

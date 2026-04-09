@@ -1,10 +1,12 @@
 import allure
 import pytest
 
-from src.constants.constants import MAIN_PRODUCT_NAME, SortOption
-from src.pages.inventory_page import InventoryPage
+from src.pages.inventory_page import InventoryPage, SortOption
 from src.pages.product_detail_page import ProductDetailPage
 from src.utils.logger import Step
+
+
+MAIN_PRODUCT_NAME = "Sauce Labs Backpack"
 
 
 @allure.feature("Inventory Page Actions")
